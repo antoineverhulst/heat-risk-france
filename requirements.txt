@@ -1,0 +1,37 @@
+# Heat Risk France - Python Dependencies
+# Phase 1: Core dependencies for data exploration and processing
+
+# Core data processing
+pandas==2.1.4
+numpy==1.26.2
+
+# Geospatial data handling
+geopandas==0.14.1
+shapely==2.0.2
+pyproj==3.6.1
+fiona==1.9.5
+
+# Web application framework
+streamlit==1.30.0
+
+# Visualization
+folium==0.15.1
+streamlit-folium==0.15.1
+plotly==5.18.0
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# Data download and HTTP requests
+requests==2.31.0
+
+# Jupyter for exploration
+jupyter==1.0.0
+ipykernel==6.27.1
+
+# Utilities
+python-dotenv==1.0.0
+
+# Development tools (optional, uncomment if needed)
+# pytest==7.4.3
+# black==23.12.1
+# flake8==6.1.0

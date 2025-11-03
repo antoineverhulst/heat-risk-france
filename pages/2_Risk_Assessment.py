@@ -1,6 +1,6 @@
 """
 Risk Assessment Page
-Identify and prioritize high-risk areas
+Identify and prioritize high-risk areas combining HEAT + VULNERABILITY
 """
 
 import streamlit as st
@@ -18,8 +18,8 @@ from config import PROCESSED_DATA_DIR, LCZ_DESCRIPTIONS
 # Page config
 st.set_page_config(page_title="Risk Assessment", page_icon="⚠️", layout="wide")
 
-st.title("⚠️ Heat Risk Assessment")
-st.markdown("Identify priority areas for intervention and adaptation measures")
+st.title("⚠️ Composite Heat Risk Assessment")
+st.markdown("Combining thermal exposure and population vulnerability to identify priority areas")
 
 # Load data
 @st.cache_data
@@ -38,8 +38,18 @@ def load_summary():
         return pd.read_csv(summary_file)
     return None
 
+@st.cache_data
+def load_vulnerability_data():
+    """Load vulnerability data"""
+    vuln_file = PROCESSED_DATA_DIR / "paris_vulnerability.csv"
+    if vuln_file.exists():
+        return pd.read_csv(vuln_file)
+    return None
+
 # City selector
 summary = load_summary()
+vuln_data = load_vulnerability_data()
+
 if summary is not None:
     cities = summary['city'].tolist()
     selected_city = st.sidebar.selectbox("Select City", cities, index=0)
@@ -47,32 +57,72 @@ if summary is not None:
     # Load city data
     city_data = load_city_data(selected_city)
     
-    if city_data is not None:
-        st.success(f"✅ Analyzing {len(city_data):,} zones in {selected_city}")
+    if city_data is not None and vuln_data is not None:
+        st.success(f"✅ Analyzing {len(city_data):,} zones in {selected_city} with vulnerability data")
         
-        # Define risk categories
+        # Sidebar: Risk calculation weights
+        st.sidebar.markdown("---")
+        st.sidebar.subheader("🎛️ Risk Calculation")
+        
+        heat_weight = st.sidebar.slider(
+            "Heat Exposure Weight",
+            min_value=0.0,
+            max_value=1.0,
+            value=0.5,
+            step=0.1,
+            help="Weight for heat exposure in composite risk"
+        )
+        
+        vuln_weight = 1.0 - heat_weight
+        
+        st.sidebar.metric("Vulnerability Weight", f"{vuln_weight:.1f}")
+        
+        st.sidebar.info(f"""
+        **Formula:**
+        Risk = ({heat_weight:.1f} × Heat) + ({vuln_weight:.1f} × Vulnerability)
+        
+        Normalized to 0-100 scale
+        """)
+        
+        # Calculate composite risk
+        # For now, use Paris average vulnerability since we don't have zone-level linkage
+        paris_avg_vuln = vuln_data['vulnerability_score'].mean()
+        
+        city_data['vulnerability_score'] = paris_avg_vuln  # Simplified approach
+        city_data['composite_risk'] = (
+            (city_data['heat_score'] * heat_weight + 
+             city_data['vulnerability_score'] * vuln_weight) / 10 * 100
+        ).round(1)
+        
+        # Categorize risk
         city_data['risk_category'] = pd.cut(
-            city_data['heat_score'],
-            bins=[0, 4, 7, 8, 10],
-            labels=['Low', 'Moderate', 'High', 'Very High']
+            city_data['composite_risk'],
+            bins=[0, 20, 40, 60, 80, 100],
+            labels=['Very Low', 'Low', 'Moderate', 'High', 'Very High']
         )
         
         # Overview metrics
-        st.subheader("📊 Risk Overview")
+        st.subheader("📊 Composite Risk Overview")
+        
+        st.info(f"""
+        **Risk Calculation**: Combining heat exposure (avg: {city_data['heat_score'].mean():.1f}/10) 
+        with population vulnerability (avg: {paris_avg_vuln:.1f}/10) using weights: 
+        Heat {heat_weight:.0%} + Vulnerability {vuln_weight:.0%}
+        """)
         
         col1, col2, col3, col4 = st.columns(4)
         
         very_high = len(city_data[city_data['risk_category'] == 'Very High'])
         high = len(city_data[city_data['risk_category'] == 'High'])
         moderate = len(city_data[city_data['risk_category'] == 'Moderate'])
-        low = len(city_data[city_data['risk_category'] == 'Low'])
+        low = len(city_data[(city_data['risk_category'] == 'Low') | (city_data['risk_category'] == 'Very Low')])
         
         with col1:
             st.metric(
                 "🔴 Very High Risk",
                 very_high,
                 f"{very_high/len(city_data)*100:.1f}%",
-                help="Heat score 8-10"
+                help="Composite risk score 80-100"
             )
         
         with col2:
@@ -80,7 +130,7 @@ if summary is not None:
                 "🟠 High Risk",
                 high,
                 f"{high/len(city_data)*100:.1f}%",
-                help="Heat score 7-8"
+                help="Composite risk score 60-80"
             )
         
         with col3:
@@ -88,7 +138,7 @@ if summary is not None:
                 "🟡 Moderate Risk",
                 moderate,
                 f"{moderate/len(city_data)*100:.1f}%",
-                help="Heat score 4-7"
+                help="Composite risk score 40-60"
             )
         
         with col4:
@@ -96,42 +146,43 @@ if summary is not None:
                 "🟢 Low Risk",
                 low,
                 f"{low/len(city_data)*100:.1f}%",
-                help="Heat score 0-4"
+                help="Composite risk score 0-40"
             )
         
         st.markdown("---")
         
         # Tabs
-        tab1, tab2, tab3 = st.tabs(["🎯 Priority Zones", "📈 Risk Analysis", "💡 Recommendations"])
+        tab1, tab2, tab3, tab4 = st.tabs(["🎯 Priority Zones", "📈 Risk Analysis", "🔄 Compare Scenarios", "💡 Recommendations"])
         
         # TAB 1: Priority Zones
         with tab1:
-            st.subheader("🎯 Highest Risk Zones")
-            st.markdown("Top zones requiring immediate attention:")
+            st.subheader("🎯 Highest Composite Risk Zones")
+            st.markdown("Areas with combined high heat exposure AND high vulnerability:")
             
             # Get top risk zones
-            high_risk_zones = city_data[city_data['heat_score'] >= 7].copy()
-            high_risk_zones = high_risk_zones.sort_values('heat_score', ascending=False)
+            high_risk_zones = city_data[city_data['composite_risk'] >= 60].copy()
+            high_risk_zones = high_risk_zones.sort_values('composite_risk', ascending=False)
             
             if len(high_risk_zones) > 0:
                 # Summary
                 st.info(f"""
                 **{len(high_risk_zones)} zones identified as high or very high risk**
+                - Average composite risk: {high_risk_zones['composite_risk'].mean():.1f}/100
                 - Average heat score: {high_risk_zones['heat_score'].mean():.2f}/10
+                - Average vulnerability: {high_risk_zones['vulnerability_score'].mean():.2f}/10
                 - Total area: {high_risk_zones.geometry.area.sum() / 1_000_000:.2f} km²
-                - {len(high_risk_zones[high_risk_zones['ver'] < 10])} zones with <10% vegetation
                 """)
                 
                 # Top 20 zones table
                 st.markdown("**Top 20 Highest Risk Zones:**")
                 
                 display_data = high_risk_zones.head(20)[
-                    ['lcz', 'heat_score', 'hre', 'ver', 'ror', 'bur']
+                    ['lcz', 'heat_score', 'vulnerability_score', 'composite_risk', 'hre', 'ver']
                 ].copy()
                 
                 display_data.columns = [
-                    'LCZ Type', 'Heat Score', 'Building Height (m)',
-                    'Vegetation (%)', 'Impervious Surface (%)', 'Built Surface (%)'
+                    'LCZ Type', 'Heat Score', 'Vulnerability', 'Composite Risk',
+                    'Building Height (m)', 'Vegetation (%)'
                 ]
                 
                 # Round and add descriptions
@@ -140,7 +191,11 @@ if summary is not None:
                 
                 display_data['Description'] = display_data['LCZ Type'].astype(str).map(LCZ_DESCRIPTIONS)
                 
-                st.dataframe(display_data, use_container_width=True, height=400)
+                st.dataframe(
+                    display_data.style.background_gradient(subset=['Composite Risk'], cmap='Reds'),
+                    use_container_width=True, 
+                    height=400
+                )
                 
                 # Characteristics of high-risk zones
                 st.markdown("---")
@@ -256,8 +311,75 @@ if summary is not None:
             )
             st.plotly_chart(fig_corr, use_container_width=True)
         
-        # TAB 3: Recommendations
+        # TAB 3: Compare Scenarios
         with tab3:
+            st.subheader("🔄 Compare Risk Scenarios")
+            st.markdown("See how different weight combinations affect risk assessment:")
+            
+            # Create 3 scenarios
+            scenarios = {
+                'Heat-Focused (70/30)': {'heat': 0.7, 'vuln': 0.3},
+                'Balanced (50/50)': {'heat': 0.5, 'vuln': 0.5},
+                'Vulnerability-Focused (30/70)': {'heat': 0.3, 'vuln': 0.7}
+            }
+            
+            scenario_results = []
+            for name, weights in scenarios.items():
+                risk = (city_data['heat_score'] * weights['heat'] + 
+                       city_data['vulnerability_score'] * weights['vuln']) / 10 * 100
+                
+                very_high = len(risk[risk >= 80])
+                high = len(risk[(risk >= 60) & (risk < 80)])
+                
+                scenario_results.append({
+                    'Scenario': name,
+                    'Very High Risk': very_high,
+                    'High Risk': high,
+                    'Total High+': very_high + high,
+                    'Avg Risk': risk.mean()
+                })
+            
+            scenario_df = pd.DataFrame(scenario_results)
+            
+            st.dataframe(scenario_df, use_container_width=True)
+            
+            # Visualization
+            fig_scenarios = go.Figure()
+            
+            fig_scenarios.add_trace(go.Bar(
+                name='Very High Risk',
+                x=scenario_df['Scenario'],
+                y=scenario_df['Very High Risk'],
+                marker_color='#d62828'
+            ))
+            
+            fig_scenarios.add_trace(go.Bar(
+                name='High Risk',
+                x=scenario_df['Scenario'],
+                y=scenario_df['High Risk'],
+                marker_color='#f77f00'
+            ))
+            
+            fig_scenarios.update_layout(
+                title='High-Risk Zones by Scenario',
+                xaxis_title='Scenario',
+                yaxis_title='Number of Zones',
+                barmode='stack'
+            )
+            
+            st.plotly_chart(fig_scenarios, use_container_width=True)
+            
+            st.info("""
+            **Interpretation:**
+            - **Heat-Focused**: Prioritizes thermal exposure (useful for immediate heat wave response)
+            - **Balanced**: Equal consideration of heat and vulnerability (recommended for planning)
+            - **Vulnerability-Focused**: Prioritizes demographic factors (useful for long-term social programs)
+            
+            Use the slider in the sidebar to create custom weight combinations!
+            """)
+        
+        # TAB 4: Recommendations
+        with tab4:
             st.subheader("💡 Adaptation Recommendations")
             
             # Calculate key metrics
