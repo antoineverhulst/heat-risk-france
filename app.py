@@ -20,6 +20,18 @@ st.set_page_config(
 # Title and introduction
 st.title(f"{APP_ICON} {APP_TITLE}")
 
+st.warning("""
+⚠️ **Deployment Note**: This cloud demo shows **population vulnerability analysis** only. 
+The detailed heat zone maps (70MB) exceed GitHub limits and are not included.
+
+**Available in this demo:**
+- ✅ Full population vulnerability analysis by arrondissement
+- ✅ Methodology and approach documentation  
+- ✅ Risk calculation framework
+
+**For complete experience with heat maps**, run locally following the GitHub instructions.
+""")
+
 st.markdown("""
 ## Understanding Urban Heat Risk
 

@@ -454,7 +454,18 @@ if summary is not None:
             """)
     
     else:
-        st.error(f"❌ No data found for {selected_city}")
+        st.error(f"❌ Heat zone data not available for {selected_city} in this deployment")
+        st.info("""
+        **Limited Deployment**: The detailed heat zone data is not available in this cloud deployment 
+        due to file size limitations (70MB exceeds GitHub's limits).
+        
+        **Available Features:**
+        - ✅ **Vulnerability Analysis**: See the Vulnerability page for full demographic analysis
+        - ✅ **Methodology**: Full explanation of how composite risk is calculated
+        
+        **For Full Experience:**
+        Run the app locally with complete data - see instructions on the Heat Exposure page.
+        """)
 
 else:
     st.error("No summary data found. Please run data processing first.")

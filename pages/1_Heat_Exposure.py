@@ -242,8 +242,27 @@ if summary is not None:
             )
     
     else:
-        st.error(f"❌ No data found for {selected_city}")
-        st.info("Please ensure data processing is complete for this city.")
+        st.error(f"❌ Heat zone data not available for {selected_city} in this deployment")
+        st.info("""
+        **Why is the data missing?**
+        
+        The Paris heat zone file (`paris_heat_zones.gpkg`) is ~70MB and exceeds GitHub's file size limits.
+        
+        **To view the full analysis:**
+        - See the **Vulnerability** page for population analysis
+        - See the **Risk Assessment** page for methodology
+        - Or run the app locally with the full dataset
+        
+        **Local Installation:**
+        ```bash
+        git clone https://github.com/antoineverhulst/heat-risk-france.git
+        cd heat-risk-france
+        python scripts/setup_data.py
+        streamlit run app.py
+        ```
+        
+        This will download and process the complete Paris LCZ dataset locally.
+        """)
 
 else:
     st.error("No summary data found. Please run data processing first.")
