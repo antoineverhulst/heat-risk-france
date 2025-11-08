@@ -2,10 +2,29 @@
 # Mac files
 .DS_Store
 
-# Jupyter checkpoints  
+# Jupyter checkpoints
 .ipynb_checkpoints/
 *-checkpoint.ipynb
 
 # Python cache
 __pycache__/
 *.pyc
+
+# Data files (raw data should not be committed)
+# Ignore common data file formats but keep .gitkeep files
+data/raw/**/*.zip
+data/raw/**/*.csv
+data/raw/**/*.shp
+data/raw/**/*.shx
+data/raw/**/*.dbf
+data/raw/**/*.prj
+data/raw/**/*.cpg
+data/raw/**/*.geojson
+data/raw/**/*.gpkg
+data/raw/**/*.xlsx
+data/raw/**/*.xls
+data/raw/**/*.txt
+data/raw/**/*.json
+
+# Cache directory
+data/cache/
