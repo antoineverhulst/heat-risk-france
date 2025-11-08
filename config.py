@@ -45,6 +45,9 @@ LCZ_DATA_URL = "https://www.data.gouv.fr/fr/datasets/r/fb8028d6-8018-40fa-b655-4
 # INSEE Population Data
 POPULATION_DATA_URL = "https://www.insee.fr/fr/statistiques/fichier/7655475/base-pop-legales-2023.zip"
 
+# INSEE Elderly Living Alone Data (TD_POP4_2020)
+ELDERLY_LIVING_ALONE_URL = "https://www.insee.fr/fr/statistiques/fichier/7631680/TD_POP4_2020_csv.zip"
+
 # IGN Administrative Boundaries
 ADMIN_BOUNDARIES_URL = "https://wxs.ign.fr/static/vectorTiles/data/ADMIN-EXPRESS-COG-CARTO.gpkg"
 
@@ -129,6 +132,20 @@ VULNERABILITY_THRESHOLDS = {
     'high': (15, 20),        # 15-20%: Score 7-8
     'very_high': (20, 100),  # >20%: Score 9-10
 }
+
+# Elderly living alone percentage thresholds for isolation vulnerability scoring
+# Based on % of elderly (65+) living alone among total elderly population
+ISOLATION_VULNERABILITY_THRESHOLDS = {
+    'very_low': (0, 20),     # 0-20%: Score 1-2
+    'low': (20, 30),         # 20-30%: Score 3-4
+    'moderate': (30, 40),    # 30-40%: Score 5-6
+    'high': (40, 50),        # 40-50%: Score 7-8
+    'very_high': (50, 100),  # >50%: Score 9-10
+}
+
+# Enhanced vulnerability weights (age + isolation)
+VULNERABILITY_AGE_WEIGHT = 0.6      # Weight for age-based vulnerability
+VULNERABILITY_ISOLATION_WEIGHT = 0.4  # Weight for isolation-based vulnerability
 
 # ============================================================================
 # RISK CALCULATION
