@@ -39,6 +39,21 @@ def load_summary():
         return pd.read_csv(summary_file)
     return None
 
+@st.cache_data
+def load_paris_boundaries():
+    """Load Paris administrative boundaries for filtering"""
+    import json
+    boundaries_file = PROCESSED_DATA_DIR / "paris_arrondissements.geojson"
+    if boundaries_file.exists():
+        return gpd.read_file(boundaries_file)
+
+    # Try points file
+    points_file = PROCESSED_DATA_DIR / "paris_arrondissements_points.geojson"
+    if points_file.exists():
+        return gpd.read_file(points_file)
+
+    return None
+
 # City selector
 summary = load_summary()
 if summary is not None:
@@ -49,12 +64,38 @@ if summary is not None:
     city_data = load_city_data(selected_city)
     
     if city_data is not None:
-        st.success(f"✅ Loaded {len(city_data):,} climate zones for {selected_city}")
-        
+        # Filter for Paris only (INSEE codes starting with 75) if applicable
+        if selected_city.lower() == 'paris':
+            paris_boundaries = load_paris_boundaries()
+
+            if paris_boundaries is not None:
+                # Ensure both datasets use the same CRS
+                if city_data.crs != paris_boundaries.crs:
+                    paris_boundaries = paris_boundaries.to_crs(city_data.crs)
+
+                # Create a unified Paris boundary (union of all arrondissements)
+                paris_boundary = paris_boundaries.geometry.unary_union
+
+                # Filter heat zones that intersect with Paris boundaries
+                initial_count = len(city_data)
+                city_data_filtered = city_data[city_data.geometry.intersects(paris_boundary)].copy()
+
+                zones_removed = initial_count - len(city_data_filtered)
+                st.success(f"✅ Loaded {len(city_data_filtered):,} climate zones for Paris (75xxx)")
+                if zones_removed > 0:
+                    st.info(f"📍 Filtered to Paris proper: removed {zones_removed:,} zones outside Paris administrative boundaries")
+            else:
+                city_data_filtered = city_data.copy()
+                st.success(f"✅ Loaded {len(city_data_filtered):,} climate zones for {selected_city}")
+                st.warning("⚠️ Paris boundary data not found. Showing all zones in dataset. Run `scripts/download_paris_boundaries.py` to enable precise filtering.")
+        else:
+            city_data_filtered = city_data.copy()
+            st.success(f"✅ Loaded {len(city_data_filtered):,} climate zones for {selected_city}")
+
         # Sidebar filters
         st.sidebar.markdown("---")
         st.sidebar.subheader("🎛️ Filters")
-        
+
         min_heat = st.sidebar.slider(
             "Minimum Heat Score",
             min_value=0,
@@ -62,9 +103,9 @@ if summary is not None:
             value=0,
             help="Filter zones by minimum heat score"
         )
-        
-        # Filter data
-        filtered_data = city_data[city_data['heat_score'] >= min_heat].copy()
+
+        # Filter data by heat score
+        filtered_data = city_data_filtered[city_data_filtered['heat_score'] >= min_heat].copy()
         st.sidebar.info(f"Showing {len(filtered_data):,} zones")
         
         # Main content - tabs
