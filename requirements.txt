@@ -6,9 +6,10 @@ pandas
 numpy
 
 # Geospatial - use versions that don't require GDAL compilation
-geopandas
-shapely
-pyproj
+geopandas>=0.14.0
+shapely>=2.0.0
+pyproj>=3.4.0
+fiona>=1.9.0
 
 # Web application framework
 streamlit
