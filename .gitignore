@@ -1,30 +1,74 @@
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
 
-# Mac files
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+temp_iris/
+temp/
+*.temp
+*.tmp
+
+# Large data files (keep raw data out of repo)
+data/raw/**/*.zip
+data/raw/**/*.tif
+data/raw/**/*.tiff
+data/raw/**/*.dbf
+data/raw/**/*.shx
+data/raw/**/*.prj
+data/raw/lcz/Paris/
+data/raw/population/
+
+# OS specific
+Thumbs.db
 .DS_Store
 
-# Jupyter checkpoints
-.ipynb_checkpoints/
-*-checkpoint.ipynb
+# Streamlit cache
+.streamlit/
 
-# Python cache
-__pycache__/
-*.pyc
-
-# Data files (raw data should not be committed)
-# Ignore common data file formats but keep .gitkeep files
-data/raw/**/*.zip
-data/raw/**/*.csv
-data/raw/**/*.shp
-data/raw/**/*.shx
-data/raw/**/*.dbf
-data/raw/**/*.prj
-data/raw/**/*.cpg
-data/raw/**/*.geojson
-data/raw/**/*.gpkg
-data/raw/**/*.xlsx
-data/raw/**/*.xls
-data/raw/**/*.txt
-data/raw/**/*.json
-
-# Cache directory
-data/cache/
+# IDE files
+*.iml
