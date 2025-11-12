@@ -38,6 +38,10 @@ def load_iris_data():
 
     elderly_data = pd.read_csv(elderly_file)
 
+    # Convert IRIS codes to strings to ensure consistent types for merging
+    iris_geo['code_iris'] = iris_geo['code_iris'].astype(str)
+    elderly_data['IRIS'] = elderly_data['IRIS'].astype(str)
+
     # Merge on IRIS code
     # The GeoJSON uses 'code_iris' (e.g., '751010101')
     # The CSV uses 'IRIS' (e.g., '751010101')
