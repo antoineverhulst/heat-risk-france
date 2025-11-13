@@ -40,6 +40,9 @@ def load_iris_data():
 
     elderly_data = pd.read_csv(elderly_file)
 
+    # Convert IRIS column to string to match code_iris type in GeoJSON
+    elderly_data['IRIS'] = elderly_data['IRIS'].astype(str)
+
     # Merge on IRIS code
     iris_combined = iris_geo.merge(
         elderly_data[['IRIS', 'pct_elderly_55', 'pct_elderly_55_alone', 'total_population', 'elderly_55_plus']],
