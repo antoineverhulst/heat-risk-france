@@ -73,6 +73,28 @@ iris_data_complete = iris_data[
     iris_data['pct_elderly_55_alone'].notna()
 ].copy()
 
+# Check if we have any complete data
+if len(iris_data_complete) == 0:
+    st.error("❌ No IRIS zones with complete data found!")
+    st.info("""
+    **Missing data detected.** Please check:
+
+    1. **Heat scores**: Ensure you have run `notebooks/03_heat_score_analysis.ipynb`
+    2. **Elderly demographics**: Ensure you have run `notebooks/04_iris_aggregation_paris.ipynb`
+    3. **Data files**: Verify the following files exist:
+       - `data/processed/paris_iris_heat_vulnerability.geojson`
+       - `data/processed/paris_iris_elderly_pct.csv`
+
+    **Debug information:**
+    - Total IRIS zones loaded: {len(iris_data)}
+    - IRIS with heat scores: {iris_data['avg_heat_score'].notna().sum()}
+    - IRIS with elderly data (55+): {iris_data['pct_elderly_55'].notna().sum()}
+    - IRIS with elderly alone data: {iris_data['pct_elderly_55_alone'].notna().sum()}
+    """.format(len(iris_data), iris_data['avg_heat_score'].notna().sum(),
+               iris_data['pct_elderly_55'].notna().sum(),
+               iris_data['pct_elderly_55_alone'].notna().sum()))
+    st.stop()
+
 st.success(f"✅ Loaded {len(iris_data_complete):,} IRIS zones with complete data")
 
 # Sidebar: Weight configuration
