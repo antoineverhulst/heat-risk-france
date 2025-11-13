@@ -40,14 +40,19 @@ def load_iris_data():
 
     elderly_data = pd.read_csv(elderly_file)
 
-    # Convert IRIS column to string to match code_iris type in GeoJSON
+    # Convert IRIS codes to strings to ensure consistent types for merging
+    iris_geo['code_iris'] = iris_geo['code_iris'].astype(str)
     elderly_data['IRIS'] = elderly_data['IRIS'].astype(str)
 
-    # Merge on IRIS code - only merge columns not already in iris_geo
-    # GeoJSON already has pct_elderly_55 and total_population
-    # We only need to add pct_elderly_55_alone and elderly_55_plus
+    # Drop conflicting columns from GeoJSON if they exist (they may be empty placeholders)
+    columns_to_drop = ['pct_elderly_55', 'pct_elderly_55_alone', 'total_population', 'elderly_55_plus']
+    iris_geo = iris_geo.drop(columns=[col for col in columns_to_drop if col in iris_geo.columns])
+
+    # Merge on IRIS code
+    # The GeoJSON uses 'code_iris' (e.g., '751010101')
+    # The CSV uses 'IRIS' (e.g., '751010101')
     iris_combined = iris_geo.merge(
-        elderly_data[['IRIS', 'pct_elderly_55_alone', 'elderly_55_plus']],
+        elderly_data[['IRIS', 'pct_elderly_55', 'pct_elderly_55_alone', 'total_population', 'elderly_55_plus']],
         left_on='code_iris',
         right_on='IRIS',
         how='left'
