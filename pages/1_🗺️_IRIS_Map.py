@@ -42,6 +42,10 @@ def load_iris_data():
     iris_geo['code_iris'] = iris_geo['code_iris'].astype(str)
     elderly_data['IRIS'] = elderly_data['IRIS'].astype(str)
 
+    # Drop conflicting columns from GeoJSON if they exist (they may be empty placeholders)
+    columns_to_drop = ['pct_elderly_55', 'pct_elderly_55_alone', 'total_population', 'elderly_55_plus']
+    iris_geo = iris_geo.drop(columns=[col for col in columns_to_drop if col in iris_geo.columns])
+
     # Merge on IRIS code
     # The GeoJSON uses 'code_iris' (e.g., '751010101')
     # The CSV uses 'IRIS' (e.g., '751010101')
