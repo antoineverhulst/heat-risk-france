@@ -61,7 +61,13 @@ data/raw/**/*.dbf
 data/raw/**/*.shx
 data/raw/**/*.prj
 data/raw/lcz/Paris/
+data/raw/lcz/Lille/
+data/raw/lcz/Lyon/
+data/raw/lcz/Marseille/
+data/raw/lcz/Toulouse/
 data/raw/population/
+data/raw/iris/
+data/raw/IRIS_GE.7z
 
 # OS specific
 Thumbs.db
