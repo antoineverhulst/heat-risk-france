@@ -223,7 +223,7 @@ def render_map_analysis(selected_city, city_data):
         'Catégorie de chaleur': 'heat_score',
         'Densité de population': 'population_density',
         '% personnes âgées (55+)': 'pct_elderly_55',
-        '% personnes âgées vivant seules': 'pct_elderly_55_alone',
+        '% personnes âgées (55+) vivant seules': 'pct_elderly_55_alone',
         'Nombre de personnes âgées (55+) seules': 'elderly_55_plus_alone',
         'Nombre de personnes âgées (80+) seules': 'elderly_80_plus_alone'
     }
@@ -241,7 +241,7 @@ def render_map_analysis(selected_city, city_data):
     st.markdown("---")
 
     # Carte
-    st.subheader("Carte interactive")
+    st.subheader(f"Carte {selected_metric_name} à {selected_city}")
 
     city_center = CITY_CENTERS.get(selected_city, CITY_CENTERS['Paris'])
 
@@ -333,7 +333,7 @@ def render_risk_analysis(selected_city, city_data):
 
     # Carte de risque
     st.markdown("---")
-    st.subheader(f"Carte : {selected_risk_name}")
+    st.subheader(f"Carte : {selected_risk_name} à {selected_city}")
 
     city_center = CITY_CENTERS.get(selected_city, CITY_CENTERS['Paris'])
 
