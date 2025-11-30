@@ -1,6 +1,7 @@
 """
-Heat Risk France - Single Page Application
-Analyzing urban heat risk across French cities by combining thermal exposure with population vulnerability
+Risque de Chaleur en France - Application
+Analyse du risque de chaleur urbaine dans les villes françaises en combinant
+l'exposition thermique et la vulnérabilité de la population
 """
 
 import streamlit as st
@@ -9,9 +10,9 @@ import pandas as pd
 import plotly.express as px
 from pathlib import Path
 
-# Page configuration
+# Configuration de la page
 st.set_page_config(
-    page_title="Heat Risk France",
+    page_title="Risque de Chaleur France",
     page_icon="🌡️",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -38,29 +39,29 @@ RISK_COLORS = ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a',
 @st.cache_data
 def load_city_data(city_name):
     """
-    Load and merge all data for a city
-    Returns GeoDataFrame with all metrics
+    Charge et fusionne toutes les données pour une ville
+    Retourne un GeoDataFrame avec toutes les métriques
     """
     city_lower = city_name.lower()
 
-    # Load GeoJSON with heat scores and geometry
+    # Charger le GeoJSON avec les scores de chaleur et la géométrie
     geojson_file = PROCESSED_DATA_DIR / f"{city_lower}_iris_heat_vulnerability.geojson"
     elderly_file = PROCESSED_DATA_DIR / f"{city_lower}_iris_elderly_pct.csv"
 
     if not geojson_file.exists() or not elderly_file.exists():
         return None
 
-    # Load geographic data
+    # Charger les données géographiques
     iris_geo = gpd.read_file(geojson_file)
 
-    # Load demographic data
+    # Charger les données démographiques
     elderly_data = pd.read_csv(elderly_file)
 
-    # Ensure matching types for merge
+    # S'assurer que les types correspondent pour la fusion
     iris_geo['code_iris'] = iris_geo['code_iris'].astype(str)
     elderly_data['IRIS'] = elderly_data['IRIS'].astype(str)
 
-    # Merge datasets
+    # Fusionner les ensembles de données
     combined = iris_geo.merge(
         elderly_data,
         left_on='code_iris',
@@ -68,15 +69,15 @@ def load_city_data(city_name):
         how='left'
     )
 
-    # Calculate population density (project to metric CRS first for accurate area calculation)
-    # EPSG:2154 is Lambert-93, the official projection for France
+    # Calculer la densité de population (projeter d'abord en CRS métrique pour un calcul précis de la surface)
+    # EPSG:2154 est Lambert-93, la projection officielle pour la France
     combined_projected = combined.to_crs(epsg=2154)
-    combined['area_km2'] = combined_projected.geometry.area / 1_000_000  # Convert m² to km²
+    combined['area_km2'] = combined_projected.geometry.area / 1_000_000  # Convertir m² en km²
     combined['population_density'] = combined['total_population'] / combined['area_km2']
 
-    # Calculate risk indicators using categorical heat_score
+    # Calculer les indicateurs de risque en utilisant le heat_score catégoriel
     def calculate_heat_multiplier(heat_score):
-        """Calculate heat multiplier from categorical heat score"""
+        """Calcule le multiplicateur de chaleur à partir du score de chaleur catégoriel"""
         if pd.isna(heat_score):
             return 0
         elif heat_score == 'Low':
@@ -96,29 +97,29 @@ def load_city_data(city_name):
 
 
 def render_home(selected_city, city_data):
-    """Render Home section"""
-    st.title("🌡️ Heat Risk France")
+    """Affiche la section d'accueil"""
+    st.title("🌡️ Risque de Chaleur en France")
     st.markdown("""
-    ### Understanding Urban Heat Risk and Social Vulnerability
+    ### Comprendre le Risque de Chaleur Urbaine et la Vulnérabilité Sociale
 
-    Urban heat islands occur when cities replace natural land cover with dense concentrations
-    of pavement, buildings, and other surfaces that absorb and retain heat. This creates
-    "islands" of higher temperatures compared to surrounding areas.
+    Les îlots de chaleur urbains se forment lorsque les villes remplacent la couverture végétale naturelle
+    par des concentrations denses de chaussées, bâtiments et autres surfaces qui absorbent et retiennent la chaleur.
+    Cela crée des « îlots » de températures plus élevées par rapport aux zones environnantes.
 
-    **Social vulnerability** amplifies heat risk. Research by Eric Klinenberg on the 1995
-    Chicago heat wave showed that social isolation, particularly among elderly populations,
-    significantly increases mortality during extreme heat events.
+    **La vulnérabilité sociale** amplifie le risque de chaleur. Les recherches d'Eric Klinenberg sur la canicule
+    de Chicago en 1995 ont montré que l'isolement social, en particulier chez les personnes âgées,
+    augmente considérablement la mortalité lors d'épisodes de chaleur extrême.
 
-    This tool combines:
-    - 🌡️ **Heat Exposure**: Local Climate Zone (LCZ) classification (High/Medium/Low)
-    - 👴 **Demographic Vulnerability**: Elderly population data from INSEE
-    - 🏠 **Social Isolation**: Percentage of elderly living alone
+    Cet outil combine :
+    - 🌡️ **Exposition à la Chaleur** : Classification par zones climatiques locales (Élevée/Moyenne/Faible)
+    - 👴 **Vulnérabilité Démographique** : Données de population âgée de l'INSEE
+    - 🏠 **Isolement Social** : Pourcentage de personnes âgées vivant seules
     """)
 
     st.markdown("---")
 
     if city_data is not None and len(city_data) > 0:
-        st.subheader("🔍 Key Insights")
+        st.subheader("🔍 Points Clés")
 
         col1, col2 = st.columns(2)
 
@@ -126,46 +127,46 @@ def render_home(selected_city, city_data):
             high_heat = len(city_data[city_data['heat_score'] == 'High'])
             high_heat_pct = (high_heat / len(city_data)) * 100
             st.info(f"""
-            **🔥 High Heat Zones**
-            - {high_heat} IRIS zones classified as High heat
-            - Represents {high_heat_pct:.1f}% of {selected_city}
-            - Highest heat retention areas
+            **🔥 Zones à Chaleur Élevée**
+            - {high_heat} zones IRIS classées à chaleur élevée
+            - Représente {high_heat_pct:.1f}% de {selected_city}
+            - Zones à rétention de chaleur la plus forte
             """)
 
         with col2:
             high_vulnerable = len(city_data[city_data['elderly_55_plus_alone'] > 200])
             high_vulnerable_pct = (high_vulnerable / len(city_data)) * 100
             st.info(f"""
-            **👴 Vulnerable Populations**
-            - {high_vulnerable} IRIS zones with >200 elderly (55+) living alone
-            - Represents {high_vulnerable_pct:.1f}% of {selected_city}
-            - Priority areas for intervention
+            **👴 Populations Vulnérables**
+            - {high_vulnerable} zones IRIS avec >200 personnes âgées (55+) vivant seules
+            - Représente {high_vulnerable_pct:.1f}% de {selected_city}
+            - Zones prioritaires pour l'intervention
             """)
     else:
-        st.warning(f"No data available for {selected_city}")
+        st.warning(f"Aucune donnée disponible pour {selected_city}")
 
 
 def create_plotly_map(city_data, city_center, metric_col, metric_name, colormap='YlOrRd'):
-    """Create a Plotly choropleth mapbox with colorblind-friendly colors"""
+    """Créer une carte choroplèthe Plotly mapbox avec des couleurs adaptées au daltonisme"""
 
     if metric_col not in city_data.columns:
         return None
 
-    # Reproject to EPSG:4326 (WGS84) for mapbox compatibility
+    # Reprojeter en EPSG:4326 (WGS84) pour la compatibilité avec mapbox
     city_data_map = city_data.copy()
     if city_data_map.crs is not None and city_data_map.crs.to_epsg() != 4326:
         city_data_map = city_data_map.to_crs(epsg=4326)
 
-    # Check if this is the categorical heat_score
+    # Vérifier s'il s'agit du heat_score catégoriel
     if metric_col == 'heat_score':
-        # Create discrete color map for heat_score categories
+        # Créer une carte de couleurs discrètes pour les catégories de heat_score
         color_discrete_map = {
-            'High': '#e31a1c',    # Red
+            'High': '#e31a1c',    # Rouge
             'Medium': '#fd8d3c',  # Orange
-            'Low': '#91cf60'      # Green
+            'Low': '#91cf60'      # Vert
         }
 
-        # Ensure the heat_score column has the correct categories
+        # S'assurer que la colonne heat_score a les bonnes catégories
         category_order = ['Low', 'Medium', 'High']
 
         fig = px.choropleth_mapbox(
@@ -184,7 +185,7 @@ def create_plotly_map(city_data, city_center, metric_col, metric_name, colormap=
             labels={metric_col: metric_name}
         )
     else:
-        # Continuous scale for numeric metrics
+        # Échelle continue pour les métriques numériques
         fig = px.choropleth_mapbox(
             city_data_map,
             geojson=city_data_map.geometry.__geo_interface__,
@@ -209,61 +210,61 @@ def create_plotly_map(city_data, city_center, metric_col, metric_name, colormap=
 
 
 def render_map_analysis(selected_city, city_data):
-    """Render Map Analysis section"""
-    st.title("🗺️ IRIS Map")
-    st.markdown(f"### Interactive heat and demographic mapping for {selected_city}")
+    """Affiche la section d'analyse cartographique"""
+    st.title("🗺️ Carte IRIS")
+    st.markdown(f"### Cartographie interactive de la chaleur et de la démographie pour {selected_city}")
 
     if city_data is None or len(city_data) == 0:
-        st.warning(f"No data available for {selected_city}")
+        st.warning(f"Aucune donnée disponible pour {selected_city}")
         return
 
-    # Metric selector at top of this section
+    # Sélecteur de métrique en haut de cette section
     metric_options = {
-        'Heat Score Category': 'heat_score',
-        'Population Density': 'population_density',
-        '% Elderly (55+)': 'pct_elderly_55',
-        '% Elderly Living Alone': 'pct_elderly_55_alone',
-        'Elderly (55+) Alone Count': 'elderly_55_plus_alone',
-        'Elderly (80+) Alone Count': 'elderly_80_plus_alone'
+        'Catégorie de Chaleur': 'heat_score',
+        'Densité de Population': 'population_density',
+        '% Personnes Âgées (55+)': 'pct_elderly_55',
+        '% Personnes Âgées Vivant Seules': 'pct_elderly_55_alone',
+        'Nombre de Personnes Âgées (55+) Seules': 'elderly_55_plus_alone',
+        'Nombre de Personnes Âgées (80+) Seules': 'elderly_80_plus_alone'
     }
 
     selected_metric_name = st.selectbox(
-        "Select metric to visualize on the map:",
+        "Sélectionner la métrique à visualiser sur la carte :",
         options=list(metric_options.keys()),
         index=0,
         key="iris_map_metric",
-        help="Choose which metric to display on the IRIS map"
+        help="Choisissez quelle métrique afficher sur la carte IRIS"
     )
 
     metric_col = metric_options[selected_metric_name]
 
-    # Statistics panel
+    # Panneau de statistiques
     st.markdown("---")
-    st.subheader("📊 Statistics")
+    st.subheader("📊 Statistiques")
 
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.metric(
-            "Total IRIS Zones",
+            "Total Zones IRIS",
             f"{len(city_data):,}",
-            help="Number of census districts"
+            help="Nombre de quartiers recensés"
         )
 
     with col2:
         high_heat_count = len(city_data[city_data['heat_score'] == 'High'])
         st.metric(
-            "High Heat IRIS",
+            "IRIS Chaleur Élevée",
             f"{high_heat_count:,}",
-            help="IRIS zones with High heat classification"
+            help="Zones IRIS classées à chaleur élevée"
         )
 
     with col3:
         high_vulnerable = len(city_data[city_data['elderly_55_plus_alone'] > 200])
         st.metric(
-            "High Vulnerability",
+            "Vulnérabilité Élevée",
             f"{high_vulnerable:,}",
-            help="IRIS with >200 elderly (55+) living alone"
+            help="IRIS avec >200 personnes âgées (55+) vivant seules"
         )
 
     with col4:
@@ -272,15 +273,15 @@ def render_map_analysis(selected_city, city_data):
             (city_data['elderly_55_plus_alone'] > 200)
         ])
         st.metric(
-            "High Risk IRIS",
+            "IRIS à Risque Élevé",
             f"{high_risk:,}",
-            help="IRIS with both High heat AND high vulnerability"
+            help="IRIS avec à la fois chaleur élevée ET vulnérabilité élevée"
         )
 
     st.markdown("---")
 
-    # Map
-    st.subheader("🗺️ Interactive Map")
+    # Carte
+    st.subheader("🗺️ Carte Interactive")
 
     city_center = CITY_CENTERS.get(selected_city, CITY_CENTERS['Paris'])
 
@@ -307,72 +308,72 @@ def render_map_analysis(selected_city, city_data):
 
 
 def render_risk_analysis(selected_city, city_data):
-    """Render Risk Analysis section - Map and Top 20 table"""
-    st.title("⚖️ Risk Calculator")
-    st.markdown(f"### Heat-based risk indicators for {selected_city}")
+    """Affiche la section d'analyse de risque - Carte et tableau Top 20"""
+    st.title("⚖️ Calculateur de Risque")
+    st.markdown(f"### Indicateurs de risque basés sur la chaleur pour {selected_city}")
 
     if city_data is None or len(city_data) == 0:
-        st.warning(f"No data available for {selected_city}")
+        st.warning(f"Aucune donnée disponible pour {selected_city}")
         return
 
-    # Methodology explanation
-    with st.expander("📖 Methodology", expanded=False):
+    # Explication de la méthodologie
+    with st.expander("📖 Méthodologie", expanded=False):
         st.markdown("""
-        ### Risk Indicator Calculation
+        ### Calcul des Indicateurs de Risque
 
-        Our risk indicators combine heat exposure with vulnerable populations:
+        Nos indicateurs de risque combinent l'exposition à la chaleur avec les populations vulnérables :
 
-        **Heat Score Classification:**
-        - **Low**: LCZ classes with minimal heat retention (parks, water, vegetation)
-        - **Medium**: LCZ classes 4, 5, 6, 7, E (open urban areas)
-        - **High**: LCZ classes 1, 2, 3, 8, 10 (compact urban areas)
+        **Classification des Scores de Chaleur :**
+        - **Faible** : Classes LCZ avec rétention de chaleur minimale (parcs, eau, végétation)
+        - **Moyenne** : Classes LCZ 4, 5, 6, 7, E (zones urbaines ouvertes)
+        - **Élevée** : Classes LCZ 1, 2, 3, 8, 10 (zones urbaines compactes)
 
-        **Heat Multiplier:**
-        - 0 for Low heat score
-        - 1 for Medium heat score
-        - 2 for High heat score
+        **Multiplicateur de Chaleur :**
+        - 0 pour score de chaleur Faible
+        - 1 pour score de chaleur Moyen
+        - 2 pour score de chaleur Élevé
 
-        **Risk Indicator** = Heat Multiplier × Number of Elderly (55+) Living Alone
+        **Indicateur de Risque** = Multiplicateur de Chaleur × Nombre de Personnes Âgées (55+) Vivant Seules
 
-        **Extreme Risk Indicator** = Heat Multiplier × Number of Elderly (80+) Living Alone
+        **Indicateur de Risque Extrême** = Multiplicateur de Chaleur × Nombre de Personnes Âgées (80+) Vivant Seules
 
-        This approach prioritizes areas where:
-        1. Heat exposure is significant (Medium or High)
-        2. Vulnerable populations are present
-        3. Social isolation increases risk
+        Cette approche priorise les zones où :
+        1. L'exposition à la chaleur est significative (Moyenne ou Élevée)
+        2. Des populations vulnérables sont présentes
+        3. L'isolement social augmente le risque
         """)
 
     st.markdown("---")
 
-    # Risk metric selector at top of this section
+    # Sélecteur de métrique de risque en haut de cette section
     risk_options = {
-        'Risk Indicator (55+ alone)': {
+        'Indicateur de Risque (55+ seules)': {
             'col': 'risk_indicator',
             'elderly_col': 'elderly_55_plus_alone',
-            'label': 'Risk Indicator'
+            'label': 'Indicateur de Risque'
         },
-        'Extreme Risk Indicator (80+ alone)': {
+        'Indicateur de Risque Extrême (80+ seules)': {
             'col': 'extreme_risk_indicator',
             'elderly_col': 'elderly_80_plus_alone',
-            'label': 'Extreme Risk Indicator'
+            'label': 'Indicateur de Risque Extrême'
         }
     }
 
     selected_risk_name = st.selectbox(
-        "Select risk indicator to visualize:",
+        "Sélectionner l'indicateur de risque à visualiser :",
         options=list(risk_options.keys()),
         index=0,
         key="risk_calculator_metric",
-        help="Choose which risk indicator to analyze"
+        help="Choisissez l'indicateur de risque à analyser"
     )
 
     risk_info = risk_options[selected_risk_name]
     risk_col = risk_info['col']
     elderly_col = risk_info['elderly_col']
 
-    # Risk Map
+    # Carte de risque
     st.markdown("---")
-    st.subheader(f"🗺️ {selected_risk_name} Map")
+    st.subheader(f"🗺️ Carte : {selected_risk_name}")
 
     city_center = CITY_CENTERS.get(selected_city, CITY_CENTERS['Paris'])
 
@@ -387,131 +388,131 @@ def render_risk_analysis(selected_city, city_data):
     if plotly_map:
         st.plotly_chart(plotly_map, use_container_width=True)
 
-    # Top 20 highest risk zones table
+    # Tableau des 20 zones à risque le plus élevé
     st.markdown("---")
-    st.subheader(f"🔝 Top 20 IRIS Zones by {selected_risk_name}")
+    st.subheader(f"🔝 Top 20 des Zones IRIS par {selected_risk_name}")
 
     top_20 = city_data.nlargest(20, risk_col)[
         ['nom_iris', 'nom_com', 'heat_score', 'heat_multiplier',
          elderly_col, risk_col]
     ].reset_index(drop=True)
 
-    top_20.columns = ['IRIS Name', 'Arrondissement', 'Heat Score', 'Heat Multiplier',
+    top_20.columns = ['Nom IRIS', 'Arrondissement', 'Score de Chaleur', 'Multiplicateur de Chaleur',
                       risk_info['elderly_col'].replace('_', ' ').title(), risk_info['label']]
     top_20.index = top_20.index + 1
 
     st.dataframe(
         top_20.style.background_gradient(
             subset=[risk_info['label']],
-            cmap='Oranges' if 'Risk Indicator' in selected_risk_name else 'Reds'
+            cmap='Oranges' if 'Risque' in selected_risk_name else 'Reds'
         ),
         use_container_width=True
     )
 
 
 def render_about(selected_city, city_data):
-    """Render About section"""
-    st.title("📖 About This Project")
+    """Affiche la section À Propos"""
+    st.title("📖 À Propos de ce Projet")
 
     st.markdown("""
-    ### Methodology
+    ### Méthodologie
 
-    This application analyzes urban heat risk by combining thermal exposure data with
-    demographic vulnerability indicators at the IRIS (census district) level.
+    Cette application analyse le risque de chaleur urbaine en combinant les données d'exposition thermique
+    avec des indicateurs de vulnérabilité démographique au niveau IRIS (îlot regroupé pour l'information statistique).
 
-    #### Heat Exposure Assessment
+    #### Évaluation de l'Exposition à la Chaleur
 
-    Heat scores are derived from **Local Climate Zones (LCZ)** classification:
-    - **Source**: CEREMA 2022 LCZ data for French cities
-    - **Classification**: Categorical (High/Medium/Low)
-    - **Aggregation**: Most common LCZ category within each IRIS zone
+    Les scores de chaleur sont dérivés de la classification des **Zones Climatiques Locales (LCZ)** :
+    - **Source** : Données LCZ 2022 du CEREMA pour les villes françaises
+    - **Classification** : Catégorielle (Élevée/Moyenne/Faible)
+    - **Agrégation** : Catégorie LCZ la plus commune au sein de chaque zone IRIS
 
-    | Heat Score | LCZ Classes | Description |
-    |------------|-------------|-------------|
-    | **High** | 1, 2, 3, 8, 10 | Compact urban areas with dense buildings |
-    | **Medium** | 4, 5, 6, 7, E | Open urban and mixed areas |
-    | **Low** | 9, A, B, C, D, F, G | Vegetated areas, water bodies, parks |
+    | Score de Chaleur | Classes LCZ | Description |
+    |------------------|-------------|-------------|
+    | **Élevée** | 1, 2, 3, 8, 10 | Zones urbaines compactes avec bâtiments denses |
+    | **Moyenne** | 4, 5, 6, 7, E | Zones urbaines ouvertes et mixtes |
+    | **Faible** | 9, A, B, C, D, F, G | Zones végétalisées, plans d'eau, parcs |
 
-    #### Demographic Vulnerability
+    #### Vulnérabilité Démographique
 
-    Population data from INSEE (French national statistics):
-    - **% Elderly (55+)**: Percentage of population aged 55 and older
-    - **% Elderly Living Alone**: Social isolation indicator
-    - **Absolute counts**: Number of vulnerable individuals per IRIS
+    Données de population de l'INSEE (Institut national de la statistique) :
+    - **% Personnes Âgées (55+)** : Pourcentage de la population âgée de 55 ans et plus
+    - **% Personnes Âgées Vivant Seules** : Indicateur d'isolement social
+    - **Comptes absolus** : Nombre d'individus vulnérables par IRIS
 
-    Elderly populations are more susceptible to heat stress, and social isolation
-    significantly increases mortality risk during heat waves.
+    Les populations âgées sont plus sensibles au stress thermique, et l'isolement social
+    augmente significativement le risque de mortalité pendant les vagues de chaleur.
 
-    #### Risk Indicators
+    #### Indicateurs de Risque
 
-    Our risk indicators combine heat exposure categories with vulnerable populations:
+    Nos indicateurs de risque combinent les catégories d'exposition à la chaleur avec les populations vulnérables :
 
-    **Heat Multiplier:**
-    - Low heat = 0 (no risk from heat)
-    - Medium heat = 1 (moderate risk)
-    - High heat = 2 (significant risk)
+    **Multiplicateur de Chaleur :**
+    - Chaleur Faible = 0 (aucun risque lié à la chaleur)
+    - Chaleur Moyenne = 1 (risque modéré)
+    - Chaleur Élevée = 2 (risque significatif)
 
-    **Risk Indicator** = Heat Multiplier × Number of Elderly (55+) Living Alone
+    **Indicateur de Risque** = Multiplicateur de Chaleur × Nombre de Personnes Âgées (55+) Vivant Seules
 
-    This approach prioritizes areas with:
-    1. **Significant heat exposure** (Medium or High)
-    2. **Vulnerable populations** (elderly living alone)
-    3. **Combined risk** (heat multiplier × vulnerable population count)
+    Cette approche priorise les zones avec :
+    1. **Une exposition significative à la chaleur** (Moyenne ou Élevée)
+    2. **Des populations vulnérables** (personnes âgées vivant seules)
+    3. **Un risque combiné** (multiplicateur de chaleur × nombre de personnes vulnérables)
 
-    ### Research Background
+    ### Contexte de Recherche
 
-    This work is inspired by:
+    Ce travail est inspiré par :
 
-    **📚 Books & Articles:**
+    **📚 Livres & Articles :**
     - **Klinenberg, E. (2002)** - *Heat Wave: A Social Autopsy of Disaster in Chicago*
-      - Groundbreaking research showing that social isolation, not poverty alone,
-        was the primary factor in heat-related mortality during the 1995 Chicago heat wave
+      - Recherche pionnière montrant que l'isolement social, et non la pauvreté seule,
+        était le facteur principal de mortalité liée à la chaleur pendant la canicule de Chicago en 1995
     - **Harlan, S. L., et al. (2006)** - "Neighborhood Effects on Heat Deaths"
-      - Analysis of spatial patterns in heat vulnerability
+      - Analyse des schémas spatiaux de la vulnérabilité à la chaleur
 
-    ### Data Sources
+    ### Sources de Données
 
-    - **LCZ Data**: CEREMA (2022) via data.gouv.fr
-    - **IRIS Boundaries**: IGN (Institut national de l'information géographique et forestière) - [IRIS GE](https://geoservices.ign.fr/irisge)
-    - **Demographics**: INSEE (2022)
-    - **License**: Licence Ouverte / Open License
+    - **Données LCZ** : CEREMA (2022) via data.gouv.fr
+    - **Limites IRIS** : IGN (Institut national de l'information géographique et forestière) - [IRIS GE](https://geoservices.ign.fr/irisge)
+    - **Données démographiques** : INSEE (2022)
+    - **Licence** : Licence Ouverte / Open License
 
     ### Limitations
 
-    - LCZ is a **proxy** for heat exposure, not direct temperature measurement
-    - Does not account for specific heat wave events or real-time conditions
-    - Demographic data updated annually, may not reflect recent changes
-    - Risk scores are **relative indicators**, not absolute predictions
-    - Does not account for:
-      - Air conditioning prevalence
-      - Green space access
-      - Social support networks
-      - Healthcare accessibility
+    - Les LCZ sont un **proxy** pour l'exposition à la chaleur, pas une mesure directe de température
+    - Ne prend pas en compte les événements de canicule spécifiques ou les conditions en temps réel
+    - Les données démographiques sont mises à jour annuellement, peuvent ne pas refléter les changements récents
+    - Les scores de risque sont des **indicateurs relatifs**, pas des prédictions absolues
+    - Ne prend pas en compte :
+      - La prévalence de la climatisation
+      - L'accès aux espaces verts
+      - Les réseaux de soutien social
+      - L'accessibilité aux soins de santé
 
-    ### Download Data
+    ### Télécharger les Données
     """)
 
-    # Download buttons
+    # Boutons de téléchargement
     if city_data is not None and len(city_data) > 0:
-        st.subheader(f"📥 Download {selected_city} Data")
+        st.subheader(f"📥 Télécharger les Données de {selected_city}")
 
         col1, col2 = st.columns(2)
 
         with col1:
-            # Prepare CSV data (without geometry)
+            # Préparer les données CSV (sans géométrie)
             csv_data = city_data.drop(columns=['geometry']).copy()
             csv_string = csv_data.to_csv(index=False)
 
             st.download_button(
-                label="📄 Download Full Dataset (CSV)",
+                label="📄 Télécharger l'Ensemble de Données Complet (CSV)",
                 data=csv_string,
-                file_name=f"{selected_city.lower()}_heat_risk_data.csv",
+                file_name=f"{selected_city.lower()}_donnees_risque_chaleur.csv",
                 mime="text/csv",
-                help="Complete dataset with all metrics"
+                help="Ensemble de données complet avec toutes les métriques"
             )
 
         with col2:
-            # Risk scores only
+            # Scores de risque uniquement
             risk_data = city_data[[
                 'code_iris', 'nom_iris', 'nom_com',
                 'heat_score', 'heat_multiplier',
@@ -521,42 +522,42 @@ def render_about(selected_city, city_data):
             risk_csv = risk_data.to_csv(index=False)
 
             st.download_button(
-                label="⚖️ Download Risk Scores (CSV)",
+                label="⚖️ Télécharger les Scores de Risque (CSV)",
                 data=risk_csv,
-                file_name=f"{selected_city.lower()}_risk_scores.csv",
+                file_name=f"{selected_city.lower()}_scores_risque.csv",
                 mime="text/csv",
-                help="Risk indicators only"
+                help="Indicateurs de risque uniquement"
             )
 
     st.markdown("---")
     st.markdown("""
-    ### Contact & Contribute
+    ### Contact & Contribuer
 
-    This is an open-source project. Contributions, suggestions, and feedback are welcome!
+    Ceci est un projet open-source. Les contributions, suggestions et retours sont les bienvenus !
 
-    **Made with Streamlit 🎈**
+    **Réalisé avec Streamlit 🎈**
     """)
 
 
 def main():
-    """Main application - Single consolidated page"""
+    """Application principale - Page unique consolidée"""
 
-    # Page title
-    st.title("🌡️ Heat Risk France")
+    # Titre de la page
+    st.title("🌡️ Risque de Chaleur France")
 
     st.markdown("---")
 
     # ========================================================================
-    # CITY SELECTOR - Top of page
+    # SÉLECTEUR DE VILLE - Haut de la page
     # ========================================================================
-    st.subheader("🏙️ Select City")
+    st.subheader("🏙️ Sélectionner une Ville")
 
-    # City selector
+    # Sélecteur de ville
     selected_city = st.selectbox(
-        "Choose a city to analyze:",
+        "Choisissez une ville à analyser :",
         options=CITIES,
         index=0,
-        help="Select which city to analyze"
+        help="Sélectionnez la ville à analyser"
     )
 
     # Load data for selected city
@@ -565,12 +566,12 @@ def main():
     st.markdown("---")
 
     # ========================================================================
-    # METRICS DISPLAY - Two rows of 4 metrics
+    # AFFICHAGE DES MÉTRIQUES - Deux lignes de 4 métriques
     # ========================================================================
     if city_data is not None and len(city_data) > 0:
-        st.subheader("📊 Key Metrics")
+        st.subheader("📊 Métriques Clés")
 
-        # Row 1: Absolute counts
+        # Ligne 1 : Chiffres absolus
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
@@ -578,100 +579,100 @@ def main():
             st.metric(
                 label="Population",
                 value=f"{total_pop:,.0f}",
-                help="Total population across all IRIS zones"
+                help="Population totale dans toutes les zones IRIS"
             )
 
         with col2:
             total_iris = len(city_data)
             st.metric(
-                label="# of IRIS",
+                label="# d'IRIS",
                 value=f"{total_iris:,}",
-                help="Number of IRIS zones in the city"
+                help="Nombre de zones IRIS dans la ville"
             )
 
         with col3:
             total_elderly_55_alone = city_data['elderly_55_plus_alone'].sum()
             st.metric(
-                label="# of Elderly (55+) Living Alone",
+                label="# de Personnes Âgées (55+) Seules",
                 value=f"{total_elderly_55_alone:,.0f}",
-                help="Total count of people aged 55+ living alone"
+                help="Nombre total de personnes de 55 ans et plus vivant seules"
             )
 
         with col4:
             total_elderly_80_alone = city_data['elderly_80_plus_alone'].sum()
             st.metric(
-                label="# of Elderly (80+) Living Alone",
+                label="# de Personnes Âgées (80+) Seules",
                 value=f"{total_elderly_80_alone:,.0f}",
-                help="Total count of people aged 80+ living alone"
+                help="Nombre total de personnes de 80 ans et plus vivant seules"
             )
 
-        # Row 2: Percentages in High heat score IRIS
+        # Ligne 2 : Pourcentages dans les IRIS à score de chaleur élevé
         col5, col6, col7, col8 = st.columns(4)
 
-        # Filter for High heat score zones
+        # Filtrer les zones à score de chaleur élevé
         high_heat_zones = city_data[city_data['heat_score'] == 'High']
 
         with col5:
             pop_high_heat = high_heat_zones['total_population'].sum() if len(high_heat_zones) > 0 else 0
             pct_pop_high_heat = (pop_high_heat / total_pop * 100) if total_pop > 0 else 0
             st.metric(
-                label="% of Population in High Heat Score IRIS",
+                label="% de Population dans les IRIS à Chaleur Élevée",
                 value=f"{pct_pop_high_heat:.1f}%",
-                help="Percentage of population living in High heat score zones"
+                help="Pourcentage de la population vivant dans des zones à chaleur élevée"
             )
 
         with col6:
             num_high_heat_iris = len(high_heat_zones)
             pct_iris_high_heat = (num_high_heat_iris / total_iris * 100) if total_iris > 0 else 0
             st.metric(
-                label="% of IRIS in High Heat Score Zones",
+                label="% d'IRIS en Zones à Chaleur Élevée",
                 value=f"{pct_iris_high_heat:.1f}%",
-                help="Percentage of IRIS zones classified as High heat"
+                help="Pourcentage de zones IRIS classées à chaleur élevée"
             )
 
         with col7:
             elderly_55_high_heat = high_heat_zones['elderly_55_plus_alone'].sum() if len(high_heat_zones) > 0 else 0
             pct_elderly_55_high_heat = (elderly_55_high_heat / total_elderly_55_alone * 100) if total_elderly_55_alone > 0 else 0
             st.metric(
-                label="% of Elderly (55+) Living Alone in High Heat Score IRIS",
+                label="% de Personnes Âgées (55+) Seules dans IRIS à Chaleur Élevée",
                 value=f"{pct_elderly_55_high_heat:.1f}%",
-                help="Percentage of elderly (55+) living alone in High heat zones"
+                help="Pourcentage de personnes âgées (55+) vivant seules dans des zones à chaleur élevée"
             )
 
         with col8:
             elderly_80_high_heat = high_heat_zones['elderly_80_plus_alone'].sum() if len(high_heat_zones) > 0 else 0
             pct_elderly_80_high_heat = (elderly_80_high_heat / total_elderly_80_alone * 100) if total_elderly_80_alone > 0 else 0
             st.metric(
-                label="% of Elderly (80+) Living Alone in High Heat Score IRIS",
+                label="% de Personnes Âgées (80+) Seules dans IRIS à Chaleur Élevée",
                 value=f"{pct_elderly_80_high_heat:.1f}%",
-                help="Percentage of elderly (80+) living alone in High heat zones"
+                help="Pourcentage de personnes âgées (80+) vivant seules dans des zones à chaleur élevée"
             )
 
     st.markdown("---")
 
     # ========================================================================
-    # HOME SECTION
+    # SECTION ACCUEIL
     # ========================================================================
     render_home(selected_city, city_data)
 
     st.markdown("---")
 
     # ========================================================================
-    # IRIS MAP SECTION
+    # SECTION CARTE IRIS
     # ========================================================================
     render_map_analysis(selected_city, city_data)
 
     st.markdown("---")
 
     # ========================================================================
-    # RISK CALCULATOR SECTION
+    # SECTION CALCULATEUR DE RISQUE
     # ========================================================================
     render_risk_analysis(selected_city, city_data)
 
     st.markdown("---")
 
     # ========================================================================
-    # ABOUT SECTION
+    # SECTION À PROPOS
     # ========================================================================
     render_about(selected_city, city_data)
 
