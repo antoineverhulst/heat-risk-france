@@ -1,200 +1,209 @@
-# 🌡️ Urban Heat Risk Analysis in France
+# 🌡️ Risque de Chaleur en France
 
-An interactive Streamlit application for analyzing and visualizing urban heat risk across French cities by combining thermal exposure data with population vulnerability indicators.
+Une application Streamlit interactive pour analyser et visualiser le risque de chaleur urbaine dans les villes françaises en combinant l'exposition thermique et les indicateurs de vulnérabilité de la population.
 
-## 📖 Project Overview
+## 🎯 À propos
 
-This project explores the intersection of urban heat islands and social vulnerability in French cities, inspired by Eric Klinenberg's research showing the link between heat-related mortality and social isolation.
+Cette application explore l'intersection entre les îlots de chaleur urbains et la vulnérabilité sociale dans les villes françaises, inspirée par les recherches d'Eric Klinenberg qui ont montré le lien entre la mortalité liée à la chaleur et l'isolement social.
 
-### Key Features (Planned)
-- Interactive maps of urban heat islands (88 French cities)
-- Population vulnerability analysis (elderly populations)
-- Composite risk assessment combining heat exposure and demographic data
-- Comparative analysis across multiple cities
-- Data export capabilities
+**Question centrale** : *Quelles zones à risques pour les populations urbaines âgées face à la canicule?*
 
-## 🗂️ Project Status
+## ✨ Fonctionnalités
 
-**Current Phase**: Phase 1 - Setup & Data Acquisition  
-**Last Updated**: 2025-10-29
+### 📊 Vue d'ensemble et statistiques
+- **8 métriques clés** pour chaque ville :
+  - Population totale et nombre de zones IRIS
+  - Nombre de personnes âgées (55+ et 80+) vivant seules
+  - Pourcentages de population dans les zones à chaleur élevée
+  - Pourcentages de personnes âgées dans les zones à risque
+- **Points clés** : zones à chaleur élevée et populations vulnérables
 
-### Completed
-- [x] Project structure created
-- [x] Development environment configured
-- [ ] Sample data downloaded
-- [ ] Data exploration notebooks
+### 🗺️ Découvrir la composition du territoire
+- **Cartes interactives** avec Plotly pour visualiser :
+  - Catégorie de chaleur (Élevée/Moyenne/Faible)
+  - Densité de population
+  - Pourcentage de personnes âgées (55+)
+  - Pourcentage de personnes âgées vivant seules
+  - Nombre de personnes âgées (55+ et 80+) seules par zone IRIS
+- **Sélecteur de métrique** pour changer la visualisation en temps réel
+- **Données au niveau IRIS** (îlot regroupé pour l'information statistique)
 
-## 📊 Data Sources
+### ⚖️ Déterminer les zones à risques
+- **Indicateurs de risque** calculés automatiquement :
+  - Indicateur de risque (55+ seules)
+  - Indicateur de risque extrême (80+ seules)
+- **Formule** : Multiplicateur de chaleur × Nombre de personnes âgées seules
+  - Chaleur Faible = 0
+  - Chaleur Moyenne = 1
+  - Chaleur Élevée = 2
+- **Carte de risque** interactive
+- **Top 20** des zones IRIS les plus à risque avec détails
 
-All data comes from French open data sources:
+### 📖 À propos
+- Méthodologie détaillée
+- Sources de données
+- Limitations et contexte de recherche
+- Téléchargement des données en CSV
 
-1. **Local Climate Zones (LCZ)** - CEREMA via data.gouv.fr
-   - 88 urban areas with >50,000 inhabitants
-   - URL: https://www.data.gouv.fr/datasets/cartographie-des-zones-climatiques-locales-lcz-des-88-aires-urbaines-de-plus-de-50-000-habitants-de-france-metropolitaine
+## 🏙️ Villes disponibles
 
-2. **Population Data** - INSEE
-   - Census data with age breakdowns by commune
-   - URL: https://www.insee.fr/fr/statistiques/fichier/7655475/base-pop-legales-2023.zip
+L'application couvre actuellement **5 grandes villes françaises** :
+- **Paris** (987 zones IRIS)
+- **Lille** (110 zones IRIS)
+- **Lyon** (arrondissements)
+- **Marseille** (arrondissements)
+- **Toulouse**
 
-3. **Elderly Living Alone Data** - INSEE TD_POP4_2020
-   - Household composition data including elderly living alone
-   - URL: https://www.insee.fr/fr/statistiques/fichier/7631680/TD_POP4_2020_csv.zip
+## 📊 Méthodologie
 
-4. **Administrative Boundaries** - Paris Open Data / IGN
-   - Paris arrondissement boundaries for mapping
-   - French commune boundaries
+### Scores de chaleur
 
-## 🚀 Getting Started
+Les scores de chaleur sont basés sur la classification des **Zones Climatiques Locales (LCZ)** du CEREMA :
 
-### Prerequisites
-- Python 3.9 or higher
+| Score de chaleur | Classes LCZ | Description |
+|------------------|-------------|-------------|
+| **Élevée** | 1, 2, 3, 8, 10 | Zones urbaines compactes avec bâtiments denses (forte rétention de chaleur) |
+| **Moyenne** | 4, 5, 6, 7, E | Zones urbaines ouvertes et mixtes (rétention modérée) |
+| **Faible** | 9, A, B, C, D, F, G | Zones végétalisées, plans d'eau, parcs (faible rétention) |
+
+### Agrégation IRIS
+
+- **Méthode** : Catégorie LCZ la plus commune au sein de chaque zone IRIS
+- **Précision** : Attribution basée sur le centroïde pour éviter les chevauchements
+
+### Indicateurs de risque
+
+L'application calcule deux indicateurs :
+
+1. **Indicateur de risque** = Multiplicateur de chaleur × Personnes âgées (55+) seules
+2. **Indicateur de risque extrême** = Multiplicateur de chaleur × Personnes âgées (80+) seules
+
+Cette approche priorise les zones où :
+- L'exposition à la chaleur est significative (moyenne ou élevée)
+- Des populations vulnérables sont présentes
+- L'isolement social augmente le risque
+
+## 🚀 Démarrage rapide
+
+### Prérequis
+- Python 3.9 ou supérieur
 - Git
-- 2-5 GB free disk space (for spatial data)
+- 500 MB d'espace disque libre
 
 ### Installation
 
-1. Clone this repository:
+1. Cloner le dépôt :
 ```bash
-git clone <your-repo-url>
-cd heat_risk_france
+git clone https://github.com/antoineverhulst/heat-risk-france.git
+cd heat-risk-france
 ```
 
-2. Create and activate virtual environment:
+2. Créer et activer l'environnement virtuel :
 ```bash
 python3 -m venv venv
-source venv/bin/activate  # On Mac/Linux
+source venv/bin/activate  # Mac/Linux
+# ou
+venv\Scripts\activate  # Windows
 ```
 
-3. Install dependencies:
+3. Installer les dépendances :
 ```bash
 pip install -r requirements.txt
 ```
 
-### Quick Start
+### Lancer l'application
 
-*Coming soon - after Phase 1 completion*
+```bash
+streamlit run app.py
+```
 
-## 📁 Project Structure
+L'application s'ouvrira automatiquement dans votre navigateur à l'adresse `http://localhost:8501`
+
+## 📁 Structure du projet
 
 ```
 heat_risk_france/
-├── app.py                  # Main Streamlit application (coming soon)
-├── config.py              # Configuration settings (coming soon)
-├── requirements.txt       # Python dependencies
-├── README.md             # This file
+├── app.py                          # Application Streamlit principale
+├── requirements.txt                # Dépendances Python
+├── README.md                       # Ce fichier
 │
-├── src/                  # Source code modules
-│   ├── data_loader.py    # Data loading functions
-│   ├── spatial_processor.py  # GIS operations
-│   ├── risk_calculator.py    # Risk scoring logic
-│   └── visualizations.py     # Map and chart functions
+├── data/
+│   ├── processed/                  # Données traitées (GeoJSON, CSV)
+│   │   ├── paris_iris_heat_vulnerability.geojson
+│   │   ├── paris_iris_elderly_pct.csv
+│   │   ├── lille_iris_heat_vulnerability.geojson
+│   │   ├── lyon_iris_heat_vulnerability.geojson
+│   │   ├── marseille_iris_heat_vulnerability.geojson
+│   │   └── toulouse_iris_heat_vulnerability.geojson
+│   └── raw/                        # Données brutes (non incluses dans git)
+│       ├── lcz/                    # Données LCZ du CEREMA
+│       └── iris/                   # Limites IRIS de l'IGN
 │
-├── pages/                # Streamlit pages (multi-page app)
-│   ├── 1_🏠_Overview.py
-│   ├── 2_🌡️_Heat_Exposure.py
-│   ├── 3_👥_Vulnerability.py
-│   └── 4_⚠️_Risk_Assessment.py
+├── scripts/                        # Scripts de traitement de données
+│   └── process_iris_heat_all_cities.py
 │
-├── data/                 # Data directory (gitignored)
-│   ├── raw/             # Original downloaded data
-│   ├── processed/       # Pre-processed datasets
-│   └── cache/           # Streamlit cache
-│
-├── notebooks/           # Jupyter notebooks for exploration
-├── scripts/            # Data processing scripts
-├── tests/              # Unit tests
-└── assets/             # Static assets (images, CSS)
+└── notebooks/                      # Notebooks Jupyter d'exploration
 ```
 
-## 🧪 Development
+## 📊 Sources de données
 
-### Running Tests
-```bash
-pytest tests/
-```
+Toutes les données proviennent de sources ouvertes françaises :
 
-### Code Formatting
-```bash
-black src/
-```
+1. **Zones Climatiques Locales (LCZ)** - CEREMA (2022)
+   - 88 aires urbaines de plus de 50 000 habitants
+   - Source : [data.gouv.fr](https://www.data.gouv.fr)
+   - Licence : Licence Ouverte
 
-### Starting Jupyter Notebook
-```bash
-jupyter notebook
-```
+2. **Limites IRIS** - IGN (Institut national de l'information géographique et forestière)
+   - IRIS GE (entités géographiques) - Limites des districts de recensement
+   - Source : [IRIS GE](https://geoservices.ign.fr/irisge)
+   - Licence : Licence Ouverte
 
-## 📝 Methodology
+3. **Données démographiques** - INSEE (2022)
+   - Composition des ménages incluant les personnes âgées vivant seules
+   - Pourcentages de personnes âgées par IRIS
+   - Licence : Licence Ouverte
 
-### Heat and Vulnerability Scoring
+## 🛠️ Technologies utilisées
 
-1. **Heat Exposure Score**: Based on Local Climate Zone (LCZ) classification (0-10 scale)
-   - Compact urban areas score higher (more heat retention)
-   - Green spaces and water bodies score lower (cooling effect)
+- **Streamlit** : Framework web pour l'application
+- **GeoPandas** : Manipulation de données géospatiales
+- **Plotly** : Visualisations interactives
+- **Pandas** : Traitement de données
+- **Python 3.9+** : Langage de programmation
 
-2. **Age-Based Vulnerability Score**: Based on % population aged 65+ (0-10 scale)
-   - <5%: Very Low (1-2)
-   - 5-10%: Low (3-4)
-   - 10-15%: Moderate (5-6)
-   - 15-20%: High (7-8)
-   - >20%: Very High (9-10)
+## 📝 Limitations
 
-3. **Isolation Vulnerability Score**: Based on % of elderly living alone (0-10 scale)
-   - <20%: Very Low (1-2)
-   - 20-30%: Low (3-4)
-   - 30-40%: Moderate (5-6)
-   - 40-50%: High (7-8)
-   - >50%: Very High (9-10)
+- Les scores LCZ sont un **proxy** pour l'exposition à la chaleur, pas une mesure directe de température
+- Ne prend pas en compte les événements de canicule spécifiques ou les conditions en temps réel
+- Les données démographiques sont mises à jour annuellement
+- Les scores de risque sont des **indicateurs relatifs**, pas des prédictions absolues
+- Ne prend pas en compte :
+  - La prévalence de la climatisation
+  - L'accès aux espaces verts
+  - Les réseaux de soutien social
+  - L'accessibilité aux soins de santé
 
-4. **Enhanced Vulnerability Score**: Combines age and isolation factors
-   - Formula: 60% × Age Score + 40% × Isolation Score
-   - Accounts for both demographic profile and social vulnerability
+## 🤝 Contribution
 
-5. **Composite Risk Index**: Weighted combination of heat and vulnerability (0-100 scale)
-   - Default: 50% heat exposure + 50% vulnerability
-   - User-adjustable weights in the app
+Les contributions, suggestions et retours sont les bienvenus ! N'hésitez pas à ouvrir une issue ou une pull request.
 
-### Data Processing
+## 📄 Licence
 
-To process the elderly living alone data:
+Ce projet utilise des données ouvertes provenant de sources publiques françaises sous Licence Ouverte / Open License.
 
-```bash
-# 1. Download the INSEE TD_POP4_2020 data manually from:
-# https://www.insee.fr/fr/statistiques/fichier/7631680/TD_POP4_2020_csv.zip
+## 🙏 Remerciements
 
-# 2. Place the ZIP file in: data/raw/population/
-
-# 3. Run the processing script:
-python scripts/process_elderly_living_alone.py
-
-# 4. Download Paris arrondissement boundaries for mapping:
-python scripts/download_paris_boundaries.py
-```
-
-This will:
-- Extract elderly living alone statistics for Paris arrondissements
-- Calculate isolation vulnerability scores
-- Merge with existing vulnerability data
-- Update the enhanced vulnerability scores
-
-## 🤝 Contributing
-
-This is currently a personal project in development. Contributions, suggestions, and feedback are welcome!
-
-## 📄 License
-
-This project uses open data from French public sources under Licence Ouverte / Open License.
-
-## 🙏 Acknowledgments
-
-- **Eric Klinenberg** - Research on heat waves and social vulnerability
-- **CEREMA** - Local Climate Zone data
-- **INSEE** - Population statistics
-- **IGN** - Geographic data
+- **Eric Klinenberg** - Recherche sur les canicules et la vulnérabilité sociale
+- **CEREMA** - Données sur les zones climatiques locales
+- **INSEE** - Statistiques de population
+- **IGN** - Données géographiques
+- **Streamlit** - Framework d'application web
 
 ## 📧 Contact
 
-*Add your contact information here*
+Pour toute question ou suggestion concernant ce projet, n'hésitez pas à ouvrir une issue sur GitHub.
 
 ---
 
-**Note**: This project is under active development. Check back for updates!
+**Réalisé avec Streamlit 🎈**
