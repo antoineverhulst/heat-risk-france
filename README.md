@@ -47,12 +47,17 @@ Cette application explore l'intersection entre les îlots de chaleur urbains et 
 
 ## 🏙️ Villes disponibles
 
-L'application couvre actuellement **5 grandes villes françaises** :
+L'application couvre actuellement **10 grandes villes françaises** :
 - **Paris** (987 zones IRIS)
 - **Lille** (110 zones IRIS)
-- **Lyon** (arrondissements)
-- **Marseille** (arrondissements)
-- **Toulouse**
+- **Lyon** (185 zones IRIS)
+- **Marseille** (393 zones IRIS)
+- **Toulouse** (153 zones IRIS)
+- **Bordeaux** (88 zones IRIS)
+- **Nantes** (97 zones IRIS)
+- **Strasbourg** (116 zones IRIS)
+- **Nice** (146 zones IRIS)
+- **Montpellier** (88 zones IRIS)
 
 ## 📊 Méthodologie
 

@@ -1,0 +1,117 @@
+code_iris,nom_iris,nom_com,heat_score
+674820501,Kable Nord,Strasbourg,Low
+674821205,Neudorf Ouest Nord-Ouest,Strasbourg,Low
+674821303,Elsau Est,Strasbourg,Low
+674821604,Koenigshoffen Ouest Nord-Est,Strasbourg,Low
+674821605,Koenigshoffen Ouest Sud,Strasbourg,Medium
+674821705,Hautepierre Centre,Strasbourg,Medium
+674821706,Hautepierre Sud-Ouest,Strasbourg,High
+674821901,Cronenbourg Est Nord-Est,Strasbourg,Medium
+674821905,Cronenbourg Est Sud,Strasbourg,Medium
+674822202,Port du Rhin Centre Est,Strasbourg,Low
+674822203,Port du Rhin Nord,Strasbourg,High
+674822204,Port du Rhin Centre,Strasbourg,High
+674822205,Port du Rhin Sud-Ouest,Strasbourg,Low
+674822206,Port du Rhin Sud,Strasbourg,Low
+674822305,Neudorf Est Nord,Strasbourg,Medium
+674822501,Plaine des Bouchers Ouest,Strasbourg,Low
+674820101,Mairie Nord,Strasbourg,High
+674820102,Mairie Sud,Strasbourg,High
+674820201,Petite France Nord-Est,Strasbourg,High
+674820202,Petite France Nord-Ouest,Strasbourg,High
+674820203,Petite France Centre,Strasbourg,High
+674820204,Petite France Sud,Strasbourg,High
+674820301,Gare Sud-Ouest,Strasbourg,Medium
+674820302,Gare Sud-Est,Strasbourg,High
+674820303,Gare Nord-Ouest,Strasbourg,Medium
+674820304,Gare Centre,Strasbourg,High
+674820305,Gare Nord-Est,Strasbourg,High
+674820401,Poincaré Ouest,Strasbourg,High
+674820402,Poincaré Est,Strasbourg,High
+674820502,Kable Sud-Est,Strasbourg,High
+674820503,Kable Sud-Ouest,Strasbourg,High
+674820601,Contades Sud,Strasbourg,High
+674820602,Contades Centre,Strasbourg,Medium
+674820603,Contades Nord,Strasbourg,Low
+674820701,Orangerie Est,Strasbourg,Medium
+674820702,Orangerie Ouest,Strasbourg,High
+674820801,Forêt Noire Est,Strasbourg,High
+674820802,Forêt Noire Centre,Strasbourg,High
+674820803,Forêt Noire Ouest,Strasbourg,High
+674820804,Forêt Noire Sud,Strasbourg,High
+674820901,Vauban Sud,Strasbourg,High
+674820902,Vauban Est,Strasbourg,High
+674820903,Vauban Ouest,Strasbourg,High
+674821001,Esplanade Sud-Est,Strasbourg,Medium
+674821002,Esplanade Sud-Ouest,Strasbourg,Medium
+674821004,Esplanade Nord-Est,Strasbourg,Medium
+674821005,Esplanade Nord-Ouest,Strasbourg,Medium
+674821101,Krutenau Centre Ouest,Strasbourg,High
+674821102,Krutenau Centre Est,Strasbourg,High
+674821103,Krutenau Nord Ouest,Strasbourg,High
+674821104,Krutenau Nord Est,Strasbourg,High
+674821201,Neudorf Ouest Sud-Est,Strasbourg,High
+674821202,Neudorf Ouest Centre-Est,Strasbourg,Medium
+674821203,Neudorf Ouest Sud,Strasbourg,Medium
+674821204,Neudorf Ouest Centre-Ouest,Strasbourg,Medium
+674821206,Neudorf Ouest Centre,Strasbourg,Medium
+674821207,Neudorf Ouest Nord-Est,Strasbourg,Medium
+674821301,Elsau Centre,Strasbourg,Low
+674821302,Elsau Ouest,Strasbourg,Low
+674821401,Montagne Verte Sud-Est,Strasbourg,Medium
+674821402,Montagne Verte Sud,Strasbourg,Low
+674821403,Montagne Verte Centre Ouest,Strasbourg,Medium
+674821404,Montagne Verte Nord-Ouest,Strasbourg,Low
+674821405,Montagne Verte Nord-Est,Strasbourg,Low
+674821501,Koenigshoffen Est Ouest,Strasbourg,Medium
+674821502,Koenigshoffen Est Est,Strasbourg,Medium
+674821503,Koenigshoffen Est Sud,Strasbourg,Low
+674821601,Koenigshoffen Ouest Centre-Ouest,Strasbourg,Medium
+674821603,Koenigshoffen Ouest Nord-Ouest,Strasbourg,Medium
+674821606,Koenigshoffen Ouest Centre-Est,Strasbourg,Medium
+674821701,Hautepierre Ouest,Strasbourg,Medium
+674821702,Hautepierre Nord-Est,Strasbourg,Medium
+674821703,Hautepierre Nord,Strasbourg,Medium
+674821704,Hautepierre Sud Est,Strasbourg,High
+674821801,Cronenbourg Ouest Sud,Strasbourg,Low
+674821802,Cronenbourg Ouest Nord-Est,Strasbourg,Medium
+674821803,Cronenbourg Ouest Nord-Ouest,Strasbourg,High
+674821804,Cronenbourg Ouest Est,Strasbourg,Medium
+674821805,Cronenbourg Ouest Ouest,Strasbourg,Medium
+674821902,Cronenbourg Est Nord-Ouest,Strasbourg,Medium
+674821903,Cronenbourg Est Centre-Est,Strasbourg,Medium
+674821904,Cronenbourg Est Centre-Ouest,Strasbourg,Medium
+674822001,Cité de l'Ill Ouest,Strasbourg,Medium
+674822002,Cité de l'Ill Est,Strasbourg,Low
+674822101,Robertsau Sud-Ouest,Strasbourg,Medium
+674822102,Robertsau Ouest,Strasbourg,Low
+674822103,Robertsau Nord,Strasbourg,Low
+674822104,Robertsau Centre,Strasbourg,Medium
+674822105,Robertsau Sud-Est,Strasbourg,Medium
+674822106,Robertsau Est,Strasbourg,Low
+674822201,Port du Rhin Centre Ouest,Strasbourg,Low
+674822301,Neudorf Est Sud,Strasbourg,Medium
+674822302,Neudorf Est Centre-Est,Strasbourg,Medium
+674822303,Neudorf Est Centre,Strasbourg,Medium
+674822304,Neudorf Est Centre-Ouest,Strasbourg,Medium
+674822401,Neudorf Sud Sud,Strasbourg,Medium
+674822402,Neudorf Sud Sud-Est,Strasbourg,Medium
+674822403,Neudorf Sud Centre-Est,Strasbourg,Medium
+674822404,Neudorf Sud Nord,Strasbourg,Medium
+674822405,Neudorf Sud Centre,Strasbourg,Medium
+674822406,Neudorf Sud Centre-Ouest,Strasbourg,Medium
+674822407,Neudorf Sud Sud-Ouest,Strasbourg,Medium
+674822502,Plaine des Bouchers Est,Strasbourg,Low
+674822503,Plaine des Bouchers Centre,Strasbourg,Medium
+674822601,Canardière 1,Strasbourg,Medium
+674822602,Canardière 2,Strasbourg,Medium
+674822702,Canardière 3,Strasbourg,Medium
+674822703,Canardière 4,Strasbourg,Medium
+674822801,Polygone Est,Strasbourg,Low
+674822802,Polygone Sud,Strasbourg,Medium
+674822804,Polygone Ouest,Strasbourg,Low
+674822901,Neuhof Nord,Strasbourg,Medium
+674822902,Neuhof Sud,Strasbourg,Medium
+674823001,Stockfeld Est,Strasbourg,Low
+674823002,Stockfeld Ouest,Strasbourg,Low
+674823003,Stockfeld Nord,Strasbourg,Medium

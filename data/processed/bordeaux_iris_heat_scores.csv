@@ -1,0 +1,89 @@
+code_iris,nom_iris,nom_com,heat_score
+330630101,Le Lac 1,Bordeaux,Low
+330630201,Bacalan 1,Bordeaux,Low
+330631002,Saint-Bruno-Saint-Victor 2,Bordeaux,High
+330630103,Le Lac 3,Bordeaux,Medium
+330630202,Bacalan 2,Bordeaux,Medium
+330630203,Bacalan 3,Bordeaux,Medium
+330630204,Bacalan 4,Bordeaux,Low
+330630301,Chartrons-Grand Parc 1,Bordeaux,High
+330630302,Chartrons-Grand Parc 2,Bordeaux,High
+330630303,Chartrons-Grand Parc 3,Bordeaux,High
+330630305,Chartrons-Grand Parc 5,Bordeaux,Medium
+330630306,Chartrons-Grand Parc 6,Bordeaux,Medium
+330630307,Chartrons-Grand Parc 7,Bordeaux,High
+330630308,Chartrons-Grand Parc 8,Bordeaux,Medium
+330630309,Chartrons-Grand Parc 9,Bordeaux,High
+330630310,Chartrons-Grand Parc 10,Bordeaux,High
+330630311,Chartrons-Grand Parc 11,Bordeaux,High
+330630312,Chartrons-Grand Parc 12,Bordeaux,High
+330630313,Chartrons-Grand Parc 13,Bordeaux,High
+330630401,La Bastide 1,Bordeaux,High
+330630402,La Bastide 2,Bordeaux,High
+330630403,La Bastide 3,Bordeaux,High
+330630404,La Bastide 4,Bordeaux,Medium
+330630405,La Bastide 5,Bordeaux,Medium
+330630501,Hôtel de Ville-Quinconces 1,Bordeaux,High
+330630502,Hôtel de Ville-Quinconces 2,Bordeaux,High
+330630503,Hôtel de Ville-Quinconces 3,Bordeaux,High
+330630504,Hôtel de Ville-Quinconces 4,Bordeaux,High
+330630505,Hôtel de Ville-Quinconces 5,Bordeaux,High
+330630506,Hôtel de Ville-Quinconces 6,Bordeaux,High
+330630507,Hôtel de Ville-Quinconces 7,Bordeaux,High
+330630508,Hôtel de Ville-Quinconces 8,Bordeaux,High
+330630601,Saint-Seurin-Fondaudège 1,Bordeaux,High
+330630602,Saint-Seurin-Fondaudège 2,Bordeaux,High
+330630603,Saint-Seurin-Fondaudège 3,Bordeaux,Medium
+330630604,Saint-Seurin-Fondaudège 4,Bordeaux,High
+330630605,Saint-Seurin-Fondaudège 5,Bordeaux,High
+330630606,Saint-Seurin-Fondaudège 6,Bordeaux,High
+330630607,Saint-Seurin-Fondaudège 7,Bordeaux,High
+330630608,Saint-Seurin-Fondaudège 8,Bordeaux,High
+330630609,Saint-Seurin-Fondaudège 9,Bordeaux,High
+330630701,Villa Primerose Parc Bordelais-Caudéran 1,Bordeaux,Medium
+330630702,Villa Primerose Parc Bordelais-Caudéran 2,Bordeaux,Medium
+330630703,Villa Primerose Parc Bordelais-Caudéran 3,Bordeaux,High
+330630704,Villa Primerose Parc Bordelais-Caudéran 4,Bordeaux,Medium
+330630705,Villa Primerose Parc Bordelais-Caudéran 5,Bordeaux,High
+330630706,Villa Primerose Parc Bordelais-Caudéran 6,Bordeaux,Medium
+330630801,Lestonnat-Monséjour 1,Bordeaux,Medium
+330630802,Lestonnat-Monséjour 2,Bordeaux,Medium
+330630803,Lestonnat-Monséjour 3,Bordeaux,Medium
+330630804,Lestonnat-Monséjour 4,Bordeaux,Medium
+330630805,Lestonnat-Monséjour 5,Bordeaux,Medium
+330630806,Lestonnat-Monséjour 6,Bordeaux,Medium
+330630807,Lestonnat-Monséjour 7,Bordeaux,Medium
+330630808,Lestonnat-Monséjour 8,Bordeaux,Medium
+330630809,Lestonnat-Monséjour 9,Bordeaux,Medium
+330630901,Saint-Augustin 1,Bordeaux,Medium
+330630902,Saint-Augustin 2,Bordeaux,Medium
+330630903,Saint-Augustin 3,Bordeaux,High
+330630904,Saint-Augustin 4,Bordeaux,High
+330630905,Saint-Augustin 5,Bordeaux,High
+330631001,Saint-Bruno-Saint-Victor 1,Bordeaux,High
+330631003,Saint-Bruno-Saint-Victor 3,Bordeaux,High
+330631004,Saint-Bruno-Saint-Victor 4,Bordeaux,High
+330631005,Saint-Bruno-Saint-Victor 5,Bordeaux,High
+330631006,Saint-Bruno-Saint-Victor 6,Bordeaux,High
+330631101,Capucins-Victoire 1,Bordeaux,High
+330631102,Capucins-Victoire 2,Bordeaux,High
+330631103,Capucins-Victoire 3,Bordeaux,High
+330631104,Capucins-Victoire 4,Bordeaux,High
+330631105,Capucins-Victoire 5,Bordeaux,High
+330631106,Capucins-Victoire 6,Bordeaux,High
+330631107,Capucins-Victoire 7,Bordeaux,High
+330631108,Capucins-Victoire 8,Bordeaux,High
+330631201,Nansouty 1,Bordeaux,High
+330631202,Nansouty 2,Bordeaux,High
+330631203,Nansouty 3,Bordeaux,High
+330631204,Nansouty 4,Bordeaux,High
+330631205,Nansouty 5,Bordeaux,High
+330631206,Nansouty 6,Bordeaux,High
+330631207,Nansouty 7,Bordeaux,High
+330631208,Nansouty 8,Bordeaux,High
+330631209,Nansouty 9,Bordeaux,High
+330631301,Gare Saint-Jean 1,Bordeaux,High
+330631302,Gare Saint-Jean 2,Bordeaux,High
+330631303,Gare Saint-Jean 3,Bordeaux,Medium
+330631304,Gare Saint-Jean 4,Bordeaux,High
+330631305,Gare Saint-Jean 5,Bordeaux,High

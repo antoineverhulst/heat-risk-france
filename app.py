@@ -20,7 +20,7 @@ st.set_page_config(
 
 # Configuration
 PROCESSED_DATA_DIR = Path(__file__).parent / "data" / "processed"
-CITIES = ['Paris', 'Lille', 'Lyon', 'Marseille', 'Toulouse']
+CITIES = ['Paris', 'Lille', 'Lyon', 'Marseille', 'Toulouse', 'Bordeaux', 'Nantes', 'Strasbourg', 'Nice', 'Montpellier']
 
 # City center coordinates for maps
 CITY_CENTERS = {
@@ -28,7 +28,12 @@ CITY_CENTERS = {
     'Lille': {'lat': 50.6292, 'lon': 3.0573, 'zoom': 11},
     'Lyon': {'lat': 45.7640, 'lon': 4.8357, 'zoom': 11},
     'Marseille': {'lat': 43.2965, 'lon': 5.3698, 'zoom': 11},
-    'Toulouse': {'lat': 43.6047, 'lon': 1.4442, 'zoom': 11}
+    'Toulouse': {'lat': 43.6047, 'lon': 1.4442, 'zoom': 11},
+    'Bordeaux': {'lat': 44.8378, 'lon': -0.5792, 'zoom': 11},
+    'Nantes': {'lat': 47.2184, 'lon': -1.5536, 'zoom': 11},
+    'Strasbourg': {'lat': 48.5734, 'lon': 7.7521, 'zoom': 11},
+    'Nice': {'lat': 43.7102, 'lon': 7.2620, 'zoom': 11},
+    'Montpellier': {'lat': 43.6108, 'lon': 3.8767, 'zoom': 11}
 }
 
 # Colorblind-friendly palettes

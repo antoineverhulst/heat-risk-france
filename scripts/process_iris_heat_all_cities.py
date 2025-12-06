@@ -47,6 +47,31 @@ CITIES_CONFIG = {
         'dept': '31',
         'com_codes': ['31555'],
         'lcz_shapefile': 'Toulouse/LCZ_SPOT_2022_Toulouse.shp'
+    },
+    'Bordeaux': {
+        'dept': '33',
+        'com_codes': ['33063'],
+        'lcz_shapefile': 'Bordeaux/LCZ_SPOT_2022_Bordeaux.shp'
+    },
+    'Nantes': {
+        'dept': '44',
+        'com_codes': ['44109'],
+        'lcz_shapefile': 'Nantes/LCZ_SPOT_2022_Nantes.shp'
+    },
+    'Strasbourg': {
+        'dept': '67',
+        'com_codes': ['67482'],
+        'lcz_shapefile': 'Strasbourg/LCZ_SPOT_2022_Strasbourg.shp'
+    },
+    'Nice': {
+        'dept': '06',
+        'com_codes': ['06088'],
+        'lcz_shapefile': 'Nice/LCZ_SPOT_2022_Nice.shp'
+    },
+    'Montpellier': {
+        'dept': '34',
+        'com_codes': ['34172'],
+        'lcz_shapefile': 'Montpellier/LCZ_SPOT_2022_Montpellier.shp'
     }
 }
 

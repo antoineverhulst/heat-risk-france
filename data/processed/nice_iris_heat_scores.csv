@@ -1,0 +1,147 @@
+code_iris,nom_iris,nom_com,heat_score
+060881801,Gare Nice-Ville,Nice,Medium
+060883001,Arenas-Aéroport,Nice,Medium
+060880101,Saleya-Château,Nice,High
+060880102,Vieux Nice-Sainte-Réparate,Nice,High
+060880103,Vieux Nice-Visitation,Nice,High
+060880201,Garibaldi,Nice,High
+060880202,Port,Nice,High
+060880203,Cassini,Nice,High
+060880204,Barla,Nice,High
+060880205,Riquier-Fontaine de la Ville,Nice,High
+060880206,Bonaparte,Nice,High
+060880301,République,Nice,High
+060880302,Pierre Sola,Nice,High
+060880303,TNL-Beaumont,Nice,High
+060880304,Riquier-Arson,Nice,High
+060880305,Riquier,Nice,High
+060880401,Mont Boron,Nice,Low
+060880402,Carnot,Nice,Medium
+060880403,Mont Alban,Nice,Medium
+060880404,Bischoffsheim,Nice,Medium
+060880501,Diables Bleus,Nice,High
+060880502,Saint-Jean d'Angély,Nice,High
+060880503,Saint-Roch-Jean XXIII,Nice,Medium
+060880504,Vauban,Nice,High
+060880505,Saint-Roch-Ricolfi,Nice,High
+060880506,Saint-Charles,Nice,Medium
+060880507,Roquebillière,Nice,Medium
+060880508,Pierre Semard,Nice,Medium
+060880509,Mont Gros,Nice,Low
+060880601,Lyautey-Gendarmerie,Nice,Medium
+060880602,Paschetta,Nice,High
+060880603,Pasteur,Nice,Medium
+060880604,Pasteur-Voie Romaine,Nice,Medium
+060880605,Pasteur-Saint-Pons,Nice,High
+060880701,Route de Turin,Nice,High
+060880702,Bon Voyage,Nice,Medium
+060880801,Vinaigrier,Nice,Low
+060880901,Ariane-Les Chênes,Nice,Medium
+060880902,Ariane-Monzie,Nice,High
+060880903,La Lauvette,Nice,Low
+060880904,Ariane-Ripert,Nice,Medium
+060880905,Ariane-Saramito,Nice,Low
+060881001,Cimiez-Monastère,Nice,Medium
+060881002,Brancolar-Régina,Nice,Medium
+060881003,Brancolar-Scudéri,Nice,Low
+060881004,Cap de Croix,Nice,Medium
+060881005,Rimiez,Nice,Medium
+060881101,Puget,Nice,Medium
+060881102,Parc Chambrun,Nice,Medium
+060881103,Le Ray-Gravier-Dunant,Nice,Medium
+060881104,Gravier,Nice,Medium
+060881105,Henry Dunant,Nice,Medium
+060881201,Nice Nord-Saqui,Nice,Medium
+060881202,Comte de Falicon,Nice,Medium
+060881203,Cernuschi,Nice,Medium
+060881204,Las Planas-La Vallière,Nice,Low
+060881301,Cessole,Nice,High
+060881302,Saint-Barthélemy,Nice,High
+060881303,Gorbella,Nice,High
+060881304,Saint-Sylvestre,Nice,Medium
+060881305,Villa Arson,Nice,Medium
+060881306,Cyrnos,Nice,Medium
+060881307,Cyrille Besset-La Forêt,Nice,Medium
+060881308,La Clua,Nice,Low
+060881309,Canavese,Nice,High
+060881401,Évêché,Nice,Medium
+060881402,Bellevue,Nice,High
+060881403,Le Righi,Nice,High
+060881404,Mantega,Nice,Medium
+060881501,Marceau,Nice,High
+060881502,Thiole,Nice,High
+060881503,Jeanne d'Arc-Fuon-Cauda,Nice,High
+060881504,Michel-Ange,Nice,High
+060881505,Michelet,Nice,High
+060881506,Borriglione-Saint Lambert,Nice,Medium
+060881601,Carabacel,Nice,Medium
+060881602,Acropolis-XVe Corps,Nice,High
+060881603,Sainte-Rosalie-Arbre Inférieur,Nice,Medium
+060881604,Cimiez,Nice,Medium
+060881605,Caravadossi-George V,Nice,Medium
+060881606,Cimiez-Valrose,Nice,Medium
+060881701,Promenade du Paillon,Nice,High
+060881702,Hôpital Saint-Roch,Nice,High
+060881703,Raimbaldi,Nice,High
+060881704,Desambrois,Nice,High
+060881705,Sasserno,Nice,High
+060881802,Vernier,Nice,High
+060881803,Trachel,Nice,High
+060881804,Clément Roassal,Nice,High
+060881805,Garnier-Gare de Provence,Nice,High
+060881901,Grosso,Nice,High
+060881902,Église Russe,Nice,Medium
+060881903,Parc Impérial,Nice,Medium
+060882001,Le Piol-Cyrnos,Nice,Low
+060882002,Saint-Philippe,Nice,Low
+060882101,Carlone,Nice,High
+060882102,Madeleine Robiony,Nice,Medium
+060882103,La Bornala,Nice,Medium
+060882104,Madeleine,Nice,Medium
+060882201,Liberti-Albert 1er,Nice,High
+060882202,Notre-Dame,Nice,High
+060882203,Jean Médecin,Nice,High
+060882301,Musiciens,Nice,High
+060882302,Rossini,Nice,High
+060882303,Clemenceau,Nice,High
+060882304,Thiers-Durante,Nice,High
+060882401,France-Negresco,Nice,High
+060882402,Victor Hugo-Buffa,Nice,High
+060882501,Dante,Nice,High
+060882502,Bottero,Nice,High
+060882503,Potiers,Nice,High
+060882504,Châteauneuf,Nice,High
+060882601,Lenval,Nice,High
+060882602,Magnan,Nice,High
+060882603,Baumettes,Nice,Medium
+060882701,La Californie,Nice,High
+060882702,Pastorelle-Bosquets,Nice,Low
+060882703,Faculté de Lettres,Nice,Medium
+060882704,Gattamua,Nice,Medium
+060882705,Abbaye de Roseland,Nice,Medium
+060882801,Carras,Nice,High
+060882802,Caucade,Nice,Medium
+060882803,Lanterne-Mandariniers,Nice,Medium
+060882804,Lanterne,Nice,Low
+060882805,Napoléon III,Nice,Low
+060882901,Les Siagnes,Nice,Medium
+060882902,Les Moulins,Nice,High
+060882903,Digue des Français,Nice,Medium
+060882904,Paul Montel,Nice,Medium
+060882905,La Victorine-Grinda,Nice,Medium
+060882906,Plateaux Fleuris,Nice,Medium
+060883002,Arenas-Cassin,Nice,High
+060883003,Saint-Augustin,Nice,Medium
+060883101,Spagnol-Sainte-Marguerite,Nice,Low
+060883102,Parc des Sports,Nice,Medium
+060883201,Fabron-Terron-Archet,Nice,Low
+060883202,Saint-Antoine Ginestière,Nice,Low
+060883301,Lingostière-Saint-Isidore,Nice,Low
+060883401,Bellet-Magnan,Nice,Low
+060883402,Madeleine-Nicolaï,Nice,Low
+060883403,Madeleine Supérieure,Nice,Medium
+060883501,Crémat-Bellet,Nice,Low
+060883601,Saint-Pierre de Féric,Nice,Low
+060883602,Costière,Nice,Low
+060883701,Saint-Pancrace-Pessicart,Nice,Low
+060883801,Gairaut,Nice,Low
