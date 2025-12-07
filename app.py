@@ -184,13 +184,18 @@ def render_map_analysis(selected_city, city_data):
         'Nombre de personnes âgées (80+) seules': 'elderly_80_plus_alone'
     }
 
-    selected_metric_name = st.selectbox(
-        "Sélectionner la métrique à visualiser sur la carte :",
-        options=list(metric_options.keys()),
-        index=0,
-        key="iris_map_metric",
-        help="Choisissez quelle métrique afficher sur la carte IRIS"
-    )
+    col_label, col_selector = st.columns([1, 3])
+    with col_label:
+        st.markdown("**Sélectionner la métrique à visualiser:**")
+    with col_selector:
+        selected_metric_name = st.selectbox(
+            "",
+            options=list(metric_options.keys()),
+            index=0,
+            key="iris_map_metric",
+            label_visibility="collapsed",
+            help="Choisissez quelle métrique afficher sur la carte IRIS"
+        )
 
     metric_col = metric_options[selected_metric_name]
 
@@ -270,13 +275,18 @@ def render_risk_analysis(selected_city, city_data):
         }
     }
 
-    selected_risk_name = st.selectbox(
-        "Sélectionner l'indicateur de risque à visualiser :",
-        options=list(risk_options.keys()),
-        index=0,
-        key="risk_calculator_metric",
-        help="Choisissez l'indicateur de risque à analyser"
-    )
+    col_label, col_selector = st.columns([1, 3])
+    with col_label:
+        st.markdown("**Sélectionner l'indicateur de risque à visualiser :**")
+    with col_selector:
+        selected_risk_name = st.selectbox(
+            "",
+            options=list(risk_options.keys()),
+            index=0,
+            key="risk_calculator_metric",
+            label_visibility="collapsed",
+            help="Choisissez l'indicateur de risque à analyser"
+        )
 
     risk_info = risk_options[selected_risk_name]
     risk_col = risk_info['col']
