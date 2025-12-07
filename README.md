@@ -29,6 +29,8 @@ Cette application explore l'intersection entre les îlots de chaleur urbains et 
 - **Sélecteur de métrique** pour changer la visualisation en temps réel
 - **Données au niveau IRIS** (îlot regroupé pour l'information statistique)
 
+![Exemple de carte de chaleur - Toulouse](assets/example_map_heat_toulouse.png)
+
 ### ⚖️ Déterminer les zones à risques
 - **Indicateurs de risque** calculés automatiquement :
   - Indicateur de risque (55+ seules)
@@ -39,6 +41,8 @@ Cette application explore l'intersection entre les îlots de chaleur urbains et 
   - Chaleur Élevée = 2
 - **Carte de risque** interactive
 - **Top 20** des zones IRIS les plus à risque avec détails
+
+![Exemple de carte d'indicateur de risque - Toulouse](assets/example_map_risk_indicator_toulouse.png)
 
 ### 📖 À propos
 - Méthodologie détaillée
@@ -83,7 +87,6 @@ L'application calcule deux indicateurs :
 
 1. **Indicateur de risque** = Multiplicateur de chaleur × Personnes âgées (55+) seules
 2. **Indicateur de risque extrême** = Multiplicateur de chaleur × Personnes âgées (80+) seules
-
 Cette approche priorise les zones où :
 - L'exposition à la chaleur est significative (moyenne ou élevée)
 - Des populations vulnérables sont présentes
