@@ -192,10 +192,10 @@ Toutes les données proviennent de sources ouvertes françaises :
 
 ## ➡️ Prochaines étapes
 
-- [] Ajouter les données sur le revenu (disponible ici)
-- [] Ajouter d'autres villes françaises
-- [] Ajouter la possiblité de construire directement les données à partir de la sélectionner d'une ville
-- [] Ajouter la possibilité de comparer les villes
+- Ajouter les données sur le revenu (disponible [ici](https://www.insee.fr/fr/statistiques/8216285?sommaire=8278909#:~:text=En%202022%2C%20selon%20l'enqu%C3%AAte,est%20de%2024%20330%20euros.))
+- Ajouter d'autres villes françaises
+- Ajouter la possiblité de construire directement les données à partir de la sélectionner d'une ville
+- Ajouter la possibilité de comparer les villes
 
 
 ## 🤝 Contribution
