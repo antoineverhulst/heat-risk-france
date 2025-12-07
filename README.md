@@ -1,26 +1,27 @@
 # 🌡️ Risque de Chaleur en France
 
-Une application Streamlit interactive pour analyser et visualiser le risque de chaleur urbaine dans les villes françaises en combinant l'exposition thermique et les indicateurs de vulnérabilité de la population.
+Une application Streamlit interactive pour analyser et visualiser le risque de chaleur urbaine dans les villes françaises en combinant la sensibilité des quartiers aux phénomènes d'îlot de chaleur urbain (ICU), à partir de donnée du CEREMA, et les indicateurs de vulnérabilité de la population, à partir de donnée de l'INSEE.
 
 ## 🎯 À propos
 
-Cette application explore l'intersection entre les îlots de chaleur urbains et la vulnérabilité sociale dans les villes françaises, inspirée par les recherches d'Eric Klinenberg qui ont montré le lien entre la mortalité liée à la chaleur et l'isolement social.
+Cette application explore l'intersection entre les îlots de chaleur urbains et la vulnérabilité sociale dans les villes françaises, inspirée par les recherches d'Eric Klinenberg qui ont montré le lien entre la mortalité liée à la chaleur et l'isolement social. Il s'associe aux recherches effectuées par l'INSEE, qui montre le l'inégalité d'exposition des populations aux ICUs (Céline Grislain-Letremy, Julie Sixou, Aurélie Sotura. Urban Heat Islands and Inequalities: Evidence from French Cities. 2024. ⟨hal-05316464⟩).
 
-**Question centrale** : *Quelles zones à risques pour les populations urbaines âgées face à la canicule?*
+**Question centrale** : *Quelles sonts les zones urbaines les plus à risques pour les populations urbaines âgées face à la canicule?*
 
 ## ✨ Fonctionnalités
 
 ### 📊 Vue d'ensemble et statistiques
 - **8 métriques clés** pour chaque ville :
-  - Population totale et nombre de zones IRIS
-  - Nombre de personnes âgées (55+ et 80+) vivant seules
-  - Pourcentages de population dans les zones à chaleur élevée
-  - Pourcentages de personnes âgées dans les zones à risque
-- **Points clés** : zones à chaleur élevée et populations vulnérables
+  - Nombre de zones IRIS et % sensibles à la chaleur
+  - Population totale et % dans des IRIS sensibles à la chaleur
+  - Nombre de personnes âgées (55+) vivant seules et % dans des IRIS sensibles à la chaleur
+  - Nombre de personnes très âgées (80+) vivant seules et % dans des IRIS sensibles à la chaleur
+
+- **Points clés** : zones sensibles à la chaleur et populations vulnérables
 
 ### 🗺️ Découvrir la composition du territoire
 - **Cartes interactives** avec Plotly pour visualiser :
-  - Catégorie de chaleur (Élevée/Moyenne/Faible)
+  - Catégorie de sensibilité à la chaleur (Élevée/Moyenne/Faible)
   - Densité de population
   - Pourcentage de personnes âgées (55+)
   - Pourcentage de personnes âgées vivant seules
@@ -189,6 +190,14 @@ Toutes les données proviennent de sources ouvertes françaises :
   - Les réseaux de soutien social
   - L'accessibilité aux soins de santé
 
+## ➡️ Prochaines étapes
+
+[] Ajouter les données sur le revenu (disponible ici)
+[] Ajouter d'autres villes françaises
+[] Ajouter la possiblité de construire directement les données à partir de la sélectionner d'une ville
+[] Ajouter la possibilité de comparer les villes
+
+
 ## 🤝 Contribution
 
 Les contributions, suggestions et retours sont les bienvenus ! N'hésitez pas à ouvrir une issue ou une pull request.
@@ -197,13 +206,20 @@ Les contributions, suggestions et retours sont les bienvenus ! N'hésitez pas à
 
 Ce projet utilise des données ouvertes provenant de sources publiques françaises sous Licence Ouverte / Open License.
 
-## 🙏 Remerciements
+## 📘 Bibliographie
 
-- **Eric Klinenberg** - Recherche sur les canicules et la vulnérabilité sociale
-- **CEREMA** - Données sur les zones climatiques locales
-- **INSEE** - Statistiques de population
-- **IGN** - Données géographiques
-- **Streamlit** - Framework d'application web
+- Centre d'Études et d'Expertise sur les Risques, l'Environnement, la Mobilité et l'Aménagement (CEREMA). (2025). *Cartographie des zones climatiques locales (LCZ) des 88 aires urbaines de plus de 50 000 habitants de France métropolitaine*. Data.gouv.fr. Retrieved from https://www.data.gouv.fr/datasets/cartographie-des-zones-climatiques-locales-lcz-des-88-aires-urbaines-de-plus-de-50-000-habitants-de-france-metropolitaine/reuses_and_dataservices
+
+- Centre d'Études et d'Expertise sur les Risques, l'Environnement, la Mobilité et l'Aménagement (CEREMA). (2025). *Zones climatiques locales – LCZ : un outil en libre-service pour visualiser la sensibilité aux fortes chaleurs de 12 000 communes de France*. Retrieved from https://www.cerema.fr/fr/presse/dossier/zones-climatiques-locales-lcz-outil-libre-service-visualiser
+
+- Grislain-Letremy, C., Sixou, J., & Sotura, A. (2024). *Urban heat islands and inequalities: Evidence from French cities*. Institut national de la statistique et des études économiques (INSEE). Retrieved from https://insee.hal.science/hal-05316464/
+
+- Institut Géographique National (IGN). (n.d.). *Contours iris*. Geoservices. Retrieved from https://geoservices.ign.fr/contoursiris
+
+- Institut National de la Statistique et des Études Économiques (INSEE). (n.d.). *La population des IRIS*. Retrieved from https://www.insee.fr/fr/statistiques/8647008
+
+- Klinenberg, E. (2022). *Canicule. Chicago, été 1995. Autopsie sociale d'une catastrophe*. Éditions Deux-cent-cinq. (Translation by M. Saint-Upéry; Original work published 2002)
+
 
 ## 📧 Contact
 
