@@ -59,8 +59,8 @@ def load_city_data(city_name):
     # Charger les données géographiques
     iris_geo = gpd.read_file(geojson_file)
 
-    # Charger les données démographiques
-    elderly_data = pd.read_csv(elderly_file)
+    # Charger les données démographiques (avec dtype pour préserver les zéros initiaux)
+    elderly_data = pd.read_csv(elderly_file, dtype={'IRIS': str})
 
     # S'assurer que les types correspondent pour la fusion
     iris_geo['code_iris'] = iris_geo['code_iris'].astype(str)
@@ -168,7 +168,6 @@ def create_plotly_map(city_data, city_center, metric_col, metric_name, colormap=
 
 def render_map_analysis(selected_city, city_data):
     """Affiche la section d'analyse cartographique"""
-    st.title("Découvrir la composition du territoire")
     st.markdown(f"### Cartographie interactive de la chaleur et de la démographie pour {selected_city}")
 
     if city_data is None or len(city_data) == 0:
@@ -194,8 +193,6 @@ def render_map_analysis(selected_city, city_data):
     )
 
     metric_col = metric_options[selected_metric_name]
-
-    st.markdown("---")
 
     # Carte
     st.subheader(f"Carte {selected_metric_name} à {selected_city}")
@@ -226,7 +223,6 @@ def render_map_analysis(selected_city, city_data):
 
 def render_risk_analysis(selected_city, city_data):
     """Affiche la section d'analyse de risque - Carte et tableau Top 20"""
-    st.title("Déterminer les zones à risques")
     st.markdown(f"### Indicateurs de risque basés sur la chaleur pour {selected_city}")
 
     if city_data is None or len(city_data) == 0:
@@ -260,8 +256,6 @@ def render_risk_analysis(selected_city, city_data):
         3. L'isolement social augmente le risque
         """)
 
-    st.markdown("---")
-
     # Sélecteur de métrique de risque en haut de cette section
     risk_options = {
         'Indicateur de risque (55+ seules)': {
@@ -289,7 +283,6 @@ def render_risk_analysis(selected_city, city_data):
     elderly_col = risk_info['elderly_col']
 
     # Carte de risque
-    st.markdown("---")
     st.subheader(f"Carte : {selected_risk_name} à {selected_city}")
 
     city_center = CITY_CENTERS.get(selected_city, CITY_CENTERS['Paris'])
@@ -335,40 +328,19 @@ def main():
     # Titre de la page
     st.title("Analyse de vulnérabilité à la chaleur")
 
-    st.markdown("---")
-
-    # ========================================================================
-    # SECTIONS ÉDUCATIVES
-    # ========================================================================
-    st.markdown("""
-    ### Comprendre le Risque de Chaleur Urbaine et la Vulnérabilité Sociale
-
-    Les îlots de chaleur urbains se forment lorsque les villes remplacent la couverture végétale naturelle
-    par des concentrations denses de chaussées, bâtiments et autres surfaces qui absorbent et retiennent la chaleur.
-    Cela crée des « îlots » de températures plus élevées par rapport aux zones environnantes.
-
-    **La vulnérabilité sociale** amplifie le risque de chaleur. Les recherches d'Eric Klinenberg sur la canicule
-    de Chicago en 1995 ont montré que l'isolement social, en particulier chez les personnes âgées,
-    augmente considérablement la mortalité lors d'épisodes de chaleur extrême.
-
-    Cet outil combine :
-    - 🌡️ **Exposition à la Chaleur** : Classification par zones climatiques locales (Élevée/Moyenne/Faible)
-    - 👴 **Vulnérabilité Démographique** : Données de population âgée de l'INSEE
-    - 🏠 **Isolement Social** : Pourcentage de personnes âgées vivant seules
-    """)
-
-    st.markdown("---")
-
     # ========================================================================
     # SÉLECTEUR DE VILLE
     # ========================================================================
-    st.markdown("**Choisissez une ville à analyser :**")
-    selected_city = st.selectbox(
-        "",
-        options=CITIES,
-        index=0,
-        label_visibility="collapsed"
-    )
+    col_label, col_selector = st.columns([1, 3])
+    with col_label:
+        st.markdown("**Choisissez une ville à analyser :**")
+    with col_selector:
+        selected_city = st.selectbox(
+            "",
+            options=CITIES,
+            index=0,
+            label_visibility="collapsed"
+        )
 
     # Charger les données pour la ville sélectionnée
     city_data = load_city_data(selected_city)
@@ -403,28 +375,36 @@ def main():
         elderly_80_high_heat = high_heat_zones['elderly_80_plus_alone'].sum() if len(high_heat_zones) > 0 else 0
         pct_elderly_80_high_heat = (elderly_80_high_heat / total_elderly_80_alone * 100) if total_elderly_80_alone > 0 else 0
 
-        # Afficher les 4 métriques en une ligne
+        # Afficher les 4 métriques en une ligne avec st.metric()
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.markdown("**IRIS**")
-            st.markdown(f"### {total_iris:,}")
-            st.markdown(f"**{pct_iris_high_heat:.1f}%** en zones à chaleur élevée")
+            st.metric(label="IRIS", value=f"{total_iris:,}")
+            if pct_iris_high_heat >= 60:
+                st.markdown(f"<span style='color: red;'>🌡️ {pct_iris_high_heat:.1f}% en zones à chaleur élevée</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<span style='color: green;'>{pct_iris_high_heat:.1f}% en zones à chaleur élevée</span>", unsafe_allow_html=True)
 
         with col2:
-            st.markdown("**Population**")
-            st.markdown(f"### {total_pop:,.0f}")
-            st.markdown(f"**{pct_pop_high_heat:.1f}%** dans IRIS à chaleur élevée")
+            st.metric(label="Population", value=f"{total_pop:,.0f}")
+            if pct_pop_high_heat >= 60:
+                st.markdown(f"<span style='color: red;'>🌡️ {pct_pop_high_heat:.1f}% dans IRIS à chaleur élevée</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<span style='color: green;'>{pct_pop_high_heat:.1f}% dans IRIS à chaleur élevée</span>", unsafe_allow_html=True)
 
         with col3:
-            st.markdown("**Personnes âgées (55+)**")
-            st.markdown(f"### {total_elderly_55_alone:,.0f}")
-            st.markdown(f"**{pct_elderly_55_high_heat:.1f}%** dans IRIS à chaleur élevée")
+            st.metric(label="Personnes âgées (55+)", value=f"{total_elderly_55_alone:,.0f}")
+            if pct_elderly_55_high_heat >= 60:
+                st.markdown(f"<span style='color: red;'>🌡️ {pct_elderly_55_high_heat:.1f}% dans IRIS à chaleur élevée</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<span style='color: green;'>{pct_elderly_55_high_heat:.1f}% dans IRIS à chaleur élevée</span>", unsafe_allow_html=True)
 
         with col4:
-            st.markdown("**Personnes âgées (80+)**")
-            st.markdown(f"### {total_elderly_80_alone:,.0f}")
-            st.markdown(f"**{pct_elderly_80_high_heat:.1f}%** dans IRIS à chaleur élevée")
+            st.metric(label="Personnes âgées (80+)", value=f"{total_elderly_80_alone:,.0f}")
+            if pct_elderly_80_high_heat >= 60:
+                st.markdown(f"<span style='color: red;'>🌡️ {pct_elderly_80_high_heat:.1f}% dans IRIS à chaleur élevée</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<span style='color: green;'>{pct_elderly_80_high_heat:.1f}% dans IRIS à chaleur élevée</span>", unsafe_allow_html=True)
 
     st.markdown("---")
 
