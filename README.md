@@ -4,7 +4,7 @@ Une application Streamlit interactive pour analyser et visualiser le risque de c
 
 ## 🎯 À propos
 
-Cette application explore l'intersection entre les îlots de chaleur urbains et la vulnérabilité sociale dans les villes françaises, inspirée par les recherches d'Eric Klinenberg qui ont montré le lien entre la mortalité liée à la chaleur et l'isolement social. Il s'associe aux recherches effectuées par l'INSEE, qui montre le l'inégalité d'exposition des populations aux ICUs (Céline Grislain-Letremy, Julie Sixou, Aurélie Sotura. Urban Heat Islands and Inequalities: Evidence from French Cities. 2024. ⟨hal-05316464⟩).
+Cette application explore l'intersection entre les îlots de chaleur urbains et la vulnérabilité sociale dans les villes françaises, inspirée par les recherches d'Eric Klinenberg qui ont montré le lien entre la mortalité liée à la chaleur et l'isolement social. Il s'associe aux recherches effectuées par l'INSEE, qui montre le l'inégalité d'exposition des populations aux ICUs (Grislain-Letremy et al., 2024).
 
 **Question centrale** : *Quelles sonts les zones urbaines les plus à risques pour les populations urbaines âgées face à la canicule?*
 
@@ -192,10 +192,10 @@ Toutes les données proviennent de sources ouvertes françaises :
 
 ## ➡️ Prochaines étapes
 
-[] Ajouter les données sur le revenu (disponible ici)
-[] Ajouter d'autres villes françaises
-[] Ajouter la possiblité de construire directement les données à partir de la sélectionner d'une ville
-[] Ajouter la possibilité de comparer les villes
+- [] Ajouter les données sur le revenu (disponible ici)
+- [] Ajouter d'autres villes françaises
+- [] Ajouter la possiblité de construire directement les données à partir de la sélectionner d'une ville
+- [] Ajouter la possibilité de comparer les villes
 
 
 ## 🤝 Contribution
